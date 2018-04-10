@@ -1,0 +1,66 @@
+
+
+ssm-学子商城
+	1.建立项目，配置环境
+	2.创建文件夹结构
+		实体：bean
+		控制器：controller(在spring-mvc.xml中添加组件扫描)
+		业务层：service(在spring-service.xml中添加服务层扫描)
+		持久层:mapper(在spirng-dao.xml中添加接口扫描和映射文件扫描)
+	3.导包
+		spring-webmvc
+		spring-jdbc
+		mybatis
+		mybatis-spring
+		mysql
+		commons-dbcp
+		junit
+		jaskson*3(异步ajax)
+		jstl
+	4.添加资源文件
+		resources中添加属性文件	db.properties	spring-mvc.xml
+		在resources中创建文件夹：mappers用于管理映射文件	
+	5.配置web.xml添加dispatcherServlet, filter编码
+	
+***用户管理
+	1.表设计
+		id   		int 				auto_increment primary key;
+		username 	varchar(50)			not null unique
+		password	varchar(50)			not null
+		email		varchar(50)			not null
+		phone		varchar(32)			not null
+		image		varchar(100)						
+		gender		int					0表示男,1表示女
+		created_user varchar(50)
+		created_time date
+		modified_user varchar(50)
+		modified_time date
+		
+	2.注册
+		--创建实体类：在bean包中创建user,增加表对应字段并增加构造方法等
+		--持久层：
+			a.在mapper包定义接口：接口UserMap接口，并且在接口中定义insert方法
+			b.在mappers文件夹中创建UserMapper.xml指定namespace
+				在其中写插入语句，查询语句
+			c.写测试类，测试插入，查询语句的正确性(test.java)
+		--业务层
+			a.创建接口IUserService,在接口中定义业务方法：register方法
+				public interface IUserService{
+					void register(User user);
+				}
+			b.创建IUserService接口的实现类：UserService，实现接口中的方法	
+			c.在service.ex包中创建ClassNameAlreadyExistException异常继承RuntimeException
+			d.测试UserService是否正确(test.java)
+			
+		--用户注册,用户名，邮箱，电话号码的验证
+			a.邮箱持久层，在UserMapper接口中定义方法：验证邮箱是否存在。
+				Integer selectByEmail(String email);
+			b.在UserMapper.xml中定义select节点，根据邮箱查询是否存在
+				返回数据类型为 java.lang.Integer
+		
+		
+		
+		
+		
+		
+		
