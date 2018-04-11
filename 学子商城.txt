@@ -22,7 +22,7 @@ ssm-学子商城
 		在resources中创建文件夹：mappers用于管理映射文件	
 	5.配置web.xml添加dispatcherServlet, filter编码
 	
-***用户管理
+***用户管理****
 	1.表设计
 		id   		int 				auto_increment primary key;
 		username 	varchar(50)			not null unique
@@ -52,15 +52,51 @@ ssm-学子商城
 			c.在service.ex包中创建ClassNameAlreadyExistException异常继承RuntimeException
 			d.测试UserService是否正确(test.java)
 			
-		--用户注册,用户名，邮箱，电话号码的验证
+		--用户注册,用户名，邮箱，电话号码,用户名的验证
 			a.邮箱持久层，在UserMapper接口中定义方法：验证邮箱是否存在。
 				Integer selectByEmail(String email);
 			b.在UserMapper.xml中定义select节点，根据邮箱查询是否存在
 				返回数据类型为 java.lang.Integer
+	
+	3.定义通用的响应结束类ResponseResult定义到bean包中(实现序列化接口)
+		包含状态码，返回信息提示，返回数据
+				
+	4.控制器的5个请求方法
+		a.	/user/showRegister.do--显示页面
+			请求参数：无
+			请求方式：get
+			响应方式：转发	
+		b.	/user/checkUsername.do--异步请求确认用户名
+			请求参数：username
+			请求方式：get
+			响应方式：ResponseBody
+		c.	/user/checkEmail.do--异步请求确认邮箱
+			请求参数：email
+			请求方式：get
+			响应方式：ResponseBody
+		d.	/user/checkPhone.do--异步请求确认电话	
+			请求参数：phone
+			请求方式：get
+			响应方式：ResponseBody
+		e.	/user/register.do--确认登陆跳转
+			请求参数：form数据
+			请求方式：post
+			响应方式：ResponseBody(状态码为1时通过location进行页面跳转)
 		
-		
-		
-		
-		
+	5.在register.jsp页面中实现用户，邮箱，手机号的异步提交(ajax)	
+	
+	6.用户注册，提交按钮的控制器方法(异步提交)
+			register.jsp页面中该提交方法ajax的书写
+			
+   	**用户登陆**
+   	1.登陆-持久层
+   	2.登陆-业务层
+   		在UserService类中实现login方法
+   			a.调用持久层selectByUsername()方法，返回值User
+   			b.判断user对象是否为null
+   			c.如果为null,抛出异常UserNotFoundException(创建该异常)
+   			d.如果不为null,从user对象中取出password,用password和页面输入的password比较
+   			e.如果是true,state=1,message=登陆成功，返回user
+   			f.如果是false,抛出异常PasswordNotMatchException(创建密码不匹配异常)
 		
 		

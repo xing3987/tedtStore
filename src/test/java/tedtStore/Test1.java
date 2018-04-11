@@ -4,18 +4,24 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import store.bean.ResponseResult;
 import store.bean.User;
+import store.controller.UserController;
 import store.mapper.UserMapper;
 import store.service.IUserService;
 import store.service.UserService;
+import store.service.exception.PasswordNotMatchException;
 import store.service.exception.UserNameAlreadyExistException;
+import store.service.exception.UserNotFoundException;
 
 public class Test1 {
 		ApplicationContext ac=new ClassPathXmlApplicationContext(
 				"spring-dao.xml","spring-mvc.xml","spring-service.xml");
 		UserMapper dao=ac.getBean("userMapper",UserMapper.class);
 		IUserService userService=ac.getBean("userService",IUserService.class);
-		
+		UserController userController=ac.getBean("userController",UserController.class);
+	
+//********************测试持久层************************
 	@Test
 	//测试插入语句
 	public void insert(){
@@ -31,23 +37,36 @@ public class Test1 {
 	}
 	
 	@Test
-	//测试服务层
-	public void userService(){		
-		User user=new User(1,"17","12","16","12","12",1,null,null,null,null);
-		try {
-			userService.register(user);
-		} catch (Exception e) {
-			if(e instanceof UserNameAlreadyExistException){
-				System.out.println("用户名已经存在");
-			}
-		}
-	}
-	
-	@Test
 	//测试邮箱查询语句，通过邮箱查询是否存在，返回存在数量
 	public void selectByEmail(){
 		int num=dao.selectByEmail("16");
 		System.out.println(num);
+	}
+	
+	@Test
+	//测试电话查询语句，通过邮箱查询是否存在，返回存在数量
+	public void selectByPhone(){
+		int num=dao.selectByPhone("12");
+		System.out.println(num);
+	}
+	
+	
+
+//****************************测试服务层********************************
+	
+	/*--------------------注册页面------------------------------*/
+	@Test
+	//测试判断用户名
+	public void checkusername(){		
+		boolean flag=userService.checkUsername("18");
+		System.out.println(flag);
+	}
+	
+	@Test
+	//测试电话服务层
+	public void userPhone(){		
+		boolean flag=userService.checkPhone("12");
+		System.out.println(flag);
 	}
 	
 	@Test
@@ -58,15 +77,49 @@ public class Test1 {
 	}
 	
 	@Test
-	//测试电话查询语句，通过邮箱查询是否存在，返回存在数量
-	public void selectByPhone(){
-		int num=dao.selectByPhone("12");
-		System.out.println(num);
+	//测试注册服务层
+	public void userService(){		
+		User user=new User(1,"17","12","16","12","12",1,null,null,null,null);
+		try {
+			userService.register(user);
+		} catch (Exception e) {
+			if(e instanceof UserNameAlreadyExistException){
+				System.out.println(e.getMessage());
+			}
+		}
 	}
+	/*----------------------登陆页面-----------------------*/
 	@Test
-	//测试电话服务层
-	public void userPhone(){		
-		boolean flag=userService.checkPhone("12");
-		System.out.println(flag);
+	//测试用户登陆
+	public void userlogin(){		
+		try {
+			userService.login("123456", "12356");
+			System.out.println("登陆成功");
+		} catch (Exception e) {
+			if(e instanceof UserNotFoundException){
+				System.out.println(e.getMessage());
+			}else if(e instanceof PasswordNotMatchException){
+				System.out.println(e.getMessage());
+			}
+		}
 	}
+	
+	
+//****************************测试控制层********************************
+	
+	/*---------------------注册页面---------------------------*/
+	@Test
+	//测试控制层判断用户名
+	public void controllerCheckusername(){		
+		ResponseResult<Void> rr=userController.checkUsername("17");
+		System.out.println(rr);
+	}
+	/*-----------------------登陆页面----------------------------------*/
+	@Test
+	//测试登陆
+	public void controllerLogin(){		
+		ResponseResult<User> rr=userController.login("123456", "123456");
+		System.out.println(rr);
+	}
+	
 }

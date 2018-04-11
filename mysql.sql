@@ -16,3 +16,5 @@ create table t_user(
 
 desc t_user;
 select * from t_user;
+truncate table t_user;
+insert into t_user values(null,"aaaaaa","aaaaaa","aaaaaa@aa.com","11111111111",null,1,null,null,null,null);
