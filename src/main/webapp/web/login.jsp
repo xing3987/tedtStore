@@ -23,7 +23,7 @@
         <form id="login-form" method="post" name="form1">
             <div class="txt">
                 <p>
-					登录学子商城<span><a href="register.html">新用户注册</a></span>
+					登录学子商城<span><a href="showRegister.do">新用户注册</a></span>
                 </p>
                 <div class="text">
                     <input type="text" placeholder="请输入您的用户名" name="lname" id="username" required>
@@ -35,10 +35,10 @@
                     <span><img src="${pageContext.request.contextPath}/images/login/mm.png"></span>
                 </div>
                 <div class="chose">
-                    <input type="checkbox" class="checkbox" id="ck_rmbUser" value="0">自动登录
+                    <input type="checkbox" class="checkbox" id="ck_rmbUser">自动登录
                     <span>忘记密码？</span>
                 </div>
-                <input class="button_login" type="button" value="登录" id="bt-login" onclick="Save()"/>
+                <input class="button_login" type="button" value="登录" id="bt-login" />
             </div>
         </form>
     </div>
@@ -124,19 +124,20 @@
         }
         $.ajax({
             type:"POST",
-            url:"/checkUsername.html",
+            url:"${pageContext.request.contextPath}/user/lcheckUsername.do",
             data:"username="+data,
             beforeSend:function(XMLHttpRequest)
             {
                 $("#showResult").text("正在查询");
 
             },
-            success:function(msg)
+            success:function(obj)
             {
-                if(msg ==="yes"){
-                    $("#showResult").text("该用户名可以被使用");
-                }else if(msg === 'no'){
-                    $("#showResult").text("该用户名不存在");
+                if(obj.state ==1){
+                    $("#showResult").text(obj.message);
+                    $("#showResult").css("color","white");
+                }else if(obj.state ==0){
+                    $("#showResult").text(obj.message);
                     $("#showResult").css("color","red");
                 }else {
                     $("#showResult").text("系统异常！");
@@ -154,23 +155,20 @@
     $('#bt-login').click(function(){
         //读取用户的输入——表单序列化
         var inputData = $('#login-form').serialize();
-        //异步提交请求，进行验证
-        /*
 		$.ajax({
             type: 'POST',
-            url: 'data/1_login.php',
+            url: '${pageContext.request.contextPath}/user/login.do',
             data: inputData,
-            success: function(txt, msg, xhr){
-                if(txt=='ok'){  //登录成功
-                    var loginName = $('[name="uname"]').val();
-                    sessionStorage['loginName']=loginName;
-                    console.log(loginName);
+            dataType:"json",
+            success: function(obj){
+                if(obj.state==1){  //登录成功
+                	Save();
+                    location.href='${pageContext.request.contextPath}/main/showIndex.do';
                 }else{ //登录失败
-                    $('#showResult').html('登录失败！错误消息为：'+txt);
+                    $('#showResult').html(obj.message);
                 }
             }
-        }); */
-		location.href='index.html';
+        }); 
     });
 </script>
 <script type="text/javascript">
@@ -185,7 +183,7 @@
 
     //记住用户名密码
     function Save() {
-        if ($("#ck_rmbUser").attr("checked")) {
+        if ($("#ck_rmbUser").prop("checked")) {//判断复选框是否被选中
             var str_username = $("#username").val();
             console.log(str_username);
             var str_password = $("#password").val();
@@ -194,7 +192,7 @@
             $.cookie("password", str_password, { expires: 7 });
         }
         else {
-            $.cookie("rmbUser", "false", { expire: -1 });
+            $.cookie("rmbUser", "false", { expires: -1 });
             $.cookie("username", "", { expires: -1 });
             $.cookie("password", "", { expires: -1 });
         }

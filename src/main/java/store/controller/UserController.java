@@ -1,6 +1,7 @@
 package store.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import store.service.exception.UserNotFoundException;
 
 @Controller
 @RequestMapping("user")
+//用户管理相关控制器login.jsp,register.jsp
 public class UserController {
 	
 	@Resource
@@ -98,21 +100,46 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login.do")
-	public  ResponseResult<User> login(String username,String password){
-		ResponseResult<User> rr=new ResponseResult<User>();
+	@ResponseBody
+	public  ResponseResult<Void> login(@RequestParam("lname") String username,
+				@RequestParam("lwd") String password,HttpSession session){
+		ResponseResult<Void> rr=new ResponseResult<Void>();
 		try{
 			User user=userService.login(username, password);
 			if(user!=null){
 				rr.setState(1);
-				rr.setData(user);
+				session.setAttribute("user", user);
 			}
 		}catch(Exception e){
 				rr.setState(0);
 				rr.setMessage(e.getMessage());
-		}		
+		}
 		return rr;		
 	}
 	
+	@RequestMapping("/lcheckUsername.do")//判断用户名是否存在，响应ajax的请求
+	@ResponseBody
+	public ResponseResult<Void> lcheckUsername(String username){
+		ResponseResult<Void> rr=new ResponseResult<Void>();
+		if(userService.checkUsername(username)){
+			rr.setState(1);
+			rr.setMessage("用户名可以使用");
+		}else{
+			rr.setState(0);
+			rr.setMessage("用户名不存在");
+		}
+		return rr;
+	}
+	
+	/********************首页index.jsp***********************/	
+	
+	@RequestMapping("/exit.do")
+	//点击退出登陆，清除session
+	public String exit(HttpSession session){
+		session.invalidate();
+		return "redirect:../main/showIndex.do";
+	}
+
 }
 
 

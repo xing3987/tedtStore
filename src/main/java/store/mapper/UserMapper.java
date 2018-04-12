@@ -10,4 +10,7 @@ public interface UserMapper {
 	public User selectByUsername(String username);//通过用户名查询，返回用户
 	public Integer selectByEmail(String email);//查询邮箱查询存在数量
 	public Integer selectByPhone(String phone);//查询电话存在数量
+	
+	public void update(User user);//更改用户信息
+	
 }

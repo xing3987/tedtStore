@@ -21,6 +21,28 @@
 		select count(*) from t_user where phone=#{phone}
 	</select>
 	
+	<update id="update" parameterType="store.bean.User">
+		update t_user set 
+		<if test="password!=null">
+			password=#{password},
+		</if>
+		<if test="username!=null">
+			username=#{username},
+		</if>
+		<if test="gender!=null">
+			gender=#{gender},
+		</if>
+		<if test="email">
+			email=#{email},
+		</if>
+		<if test="phone">
+			phone=#{phone},
+		</if>
+		modified_user=#{modifiedUser},
+		modified_time=#{modifiedTime} 
+		where id=#{id}
+	</update>
+	
 	<!-- 由于字段名与实体的属性名字不一样，所以创建resultMap映射，使它们对应 -->
 	<resultMap type="store.bean.User" id="userMap">
 		<result property="createdUser" column="created_user"/>

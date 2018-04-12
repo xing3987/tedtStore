@@ -98,5 +98,71 @@ ssm-学子商城
    			d.如果不为null,从user对象中取出password,用password和页面输入的password比较
    			e.如果是true,state=1,message=登陆成功，返回user
    			f.如果是false,抛出异常PasswordNotMatchException(创建密码不匹配异常)
+	3.登陆-控制层
+		在UsreController类中定义方法
+			a.跳转到登陆页面
+			b.点击登陆时跳转到主页并绑定session
+			c.验证用户名（ajax）
+		在login.jsp中写登陆和验证用户名的ajax代码	
+			写点击记住密码保存cookie的函数
+		
+	4.页面调整
+		注册成功之后，跳转到登陆
+		在注册的页面，点击直接登陆，跳转到登陆页面
+
+**首页管理**
+	1.登陆成功跳转到首页
+	2.在index.jsp页面，显示用户名，在右上角	
+		${user.username}	
+	3.如果没有显示用户名，显示登陆，如果显示用户名，显示退出	
+		引入标签库
+		<c:if test="${user!=null}">退出</c:if>	
+	4.点击登陆，跳转到登陆页面	
+	5.点击退出，退出到首页，清除session
+		在UserController,定义方法，完成退出的功能
+		public String exit(HttpSession session){
+			session.invalidate();
+			return "../main/showIndex.do";
+		}
+	6.截取header.jsp，在index.jsp页面动态包含header.jsp
+	7.点击用户名时，显示用户信息管理页面：	personal_password
+		在UserController中定义方法，方法名showPersonal.do
+		
+***安全管理***		
+		1.持久层
+			在UserMapping接口中定义方法
+				修改用户信息：void update(User user)
+			在UserMapper.xml文件中，定义update节点，并写sql语句
+			<update id="update" parameterType="....User">
+				update t_user set 
+					<if test="password!=null">
+						password=#{password},
+					</if>
+					<if test="username!=null">
+						username=#{username},
+					</if>
+					<if test="gender!=null">
+						gender=#{gender},
+					</if>
+					<if test="email!=null">
+						email=#{email},
+					</if>
+					<if test="phone!=null">
+						phone=#{phone},
+					</if>
+					modified_user=#{modifiedUser},
+					modified_time=#{modifiedTime} 
+				 where id=#{id}
+			</update>
+			测试：修改密码成功
+			
 		
 		
+		
+		
+		
+		
+		
+		
+		
+					

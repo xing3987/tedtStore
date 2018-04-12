@@ -6,6 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import store.bean.ResponseResult;
 import store.bean.User;
+import store.controller.MainController;
 import store.controller.UserController;
 import store.mapper.UserMapper;
 import store.service.IUserService;
@@ -20,7 +21,7 @@ public class Test1 {
 		UserMapper dao=ac.getBean("userMapper",UserMapper.class);
 		IUserService userService=ac.getBean("userService",IUserService.class);
 		UserController userController=ac.getBean("userController",UserController.class);
-	
+		//MainController mainController=ac.getBean("mainController",MainController.class);
 //********************≤‚ ‘≥÷æ√≤„************************
 	@Test
 	//≤‚ ‘≤Â»Î”Ôæ‰
@@ -118,8 +119,28 @@ public class Test1 {
 	@Test
 	//≤‚ ‘µ«¬Ω
 	public void controllerLogin(){		
-		ResponseResult<User> rr=userController.login("123456", "123456");
+		ResponseResult<Void> rr=userController.login("123456", "123456", null);
 		System.out.println(rr);
 	}
+	/*-----------------------÷˜“≥index.jsp----------------------------------*/
+	/*-----------------------–ﬁ∏ƒ√‹¬Îpersonal.jsp----------------------------*/
+	
+	@Test
+	//≤‚ ‘–ﬁ∏ƒ–≈œ¢
+	public void update(){
+		User user=new User(1,"adadf", "dfassadf", "132154@123","13212564646", null, null, null, null, null, null);
+		dao.update(user);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
