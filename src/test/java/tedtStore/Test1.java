@@ -21,7 +21,7 @@ public class Test1 {
 		UserMapper dao=ac.getBean("userMapper",UserMapper.class);
 		IUserService userService=ac.getBean("userService",IUserService.class);
 		UserController userController=ac.getBean("userController",UserController.class);
-		//MainController mainController=ac.getBean("mainController",MainController.class);
+		MainController mainController=ac.getBean("mainController",MainController.class);
 //********************≤‚ ‘≥÷æ√≤„************************
 	@Test
 	//≤‚ ‘≤Â»Î”Ôæ‰
@@ -132,7 +132,25 @@ public class Test1 {
 		dao.update(user);
 	}
 	
+	@Test
+	//≤‚ ‘Õ®π˝id≤È—Ø”√ªß
+	public void selectById(){
+		User user=dao.selectById(1);
+		System.out.println(user);
+		
+	}
 	
+	@Test
+	//≤‚ ‘–ﬁ∏ƒ√‹¬Î
+	public void changePassword(){
+		try {
+			userService.changePassword(1, "dfassadf", "123131");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}	
+	}	
+	
+
 	
 	
 	

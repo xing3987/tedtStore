@@ -130,32 +130,56 @@ ssm-学子商城
 		
 ***安全管理***		
 		1.持久层
-			在UserMapping接口中定义方法
-				修改用户信息：void update(User user)
-			在UserMapper.xml文件中，定义update节点，并写sql语句
-			<update id="update" parameterType="....User">
-				update t_user set 
-					<if test="password!=null">
-						password=#{password},
-					</if>
-					<if test="username!=null">
-						username=#{username},
-					</if>
-					<if test="gender!=null">
-						gender=#{gender},
-					</if>
-					<if test="email!=null">
-						email=#{email},
-					</if>
-					<if test="phone!=null">
-						phone=#{phone},
-					</if>
-					modified_user=#{modifiedUser},
-					modified_time=#{modifiedTime} 
-				 where id=#{id}
-			</update>
-			测试：修改密码成功
-			
+			a.在UserMapping接口中定义方法
+					修改用户信息：void update(User user)
+				在UserMapper.xml文件中，定义update节点，并写sql语句
+				<update id="update" parameterType="....User">
+					update t_user set 
+						<if test="password!=null">
+							password=#{password},
+						</if>
+						<if test="username!=null">
+							username=#{username},
+						</if>
+						<if test="gender!=null">
+							gender=#{gender},
+						</if>
+						<if test="email!=null">
+							email=#{email},
+						</if>
+						<if test="phone!=null">
+							phone=#{phone},
+						</if>
+						modified_user=#{modifiedUser},
+						modified_time=#{modifiedTime} 
+					 where id=#{id}
+				</update>
+				测试：修改密码成功
+			b.创建方法User selectById()	
+				在UserMapper.xml文件中，定义selectById方法
+		
+		2.业务层
+			在IUserService接口中定义方法
+				void changePassword(Integer id,String oldPwd,String newPwd)
+			在UserService类中实现方法
+				void changePassword(Integer id,String oldPwd,String newPwd){
+					1.调用selectById得到用户
+					2.判断user!=null，获取密码
+					3.获取密码和oldPwd进行判断
+					4.如果结果返回true
+						User u=new User
+						u.setId(..);u.setPassword()
+					5.调用持久层update(u)
+					6.返回false抛异常
+				}
+					
+		3.控制器层
+			在MainController中定于方法
+				public ResponseResult<Void> password
+			书写跳转到personInfo.jsp的代码
+		4.  在personal_password.jsp中用jQuery写验证密码，点击提交的ajax语句
+			调整各个按钮的连接地址及左边下拉列表的显示
+		5.  在personInfo.jsp中调整页面以及各个连接
 		
 		
 		

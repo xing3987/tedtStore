@@ -11,6 +11,6 @@ public interface IUserService {
 	public boolean checkUsername(String username);//验证用户名
 /****************************用户登陆**********************/
 	public User login(String username,String password);
-	
+	public void changePassword(Integer id,String oldPwd,String newPwd);//改变用户信息
 	
 }

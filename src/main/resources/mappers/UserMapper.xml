@@ -14,6 +14,11 @@
 	<select id="selectByUsername" parameterType="String" resultMap="userMap">
 		select * from t_user where username=#{username}
 	</select>
+	
+	<select id="selectById" parameterType="Integer" resultMap="userMap">
+		select * from t_user where id=#{id}
+	</select>
+	
 	<select id="selectByEmail" parameterType="String" resultType="java.lang.Integer">
 		select count(*) from t_user where email=#{email}
 	</select>

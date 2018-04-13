@@ -7,7 +7,7 @@
         <img class="animated jello" src="${pageContext.request.contextPath}/images/header/logo.png" alt="logo"/>
     </div>
     <div id="top_input" class="lf">
-        <input id="input" type="text" placeholder="请输入您要搜索的内容"/ style="width:360px">
+        <input id="input" type="text" placeholder="请输入您要搜索的内容" style="width:350px"/>
         <a href="search.html" class="rt"><img id="search" src="${pageContext.request.contextPath}/images/header/search.png" alt="搜索"/></a>
     </div>
     <div class="rt">

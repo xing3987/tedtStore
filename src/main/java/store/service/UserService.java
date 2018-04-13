@@ -59,10 +59,28 @@ public class UserService implements IUserService{
 		if(user==null){
 			throw new UserNotFoundException("用户不存在");
 		}else if(!user.getPassword().equals(password)){
-			throw new PasswordNotMatchException("密码不存在");
+			throw new PasswordNotMatchException("密码不正确");
 		}else{
 			return user;
 		}
+	}
+
+	/*
+	 *改变用户信息
+	 */
+	public void changePassword(Integer id,String oldPwd,String newPwd){
+		User user=userMapper.selectById(id);
+		if(user!=null){
+			if(user.getPassword().equals(oldPwd)){
+				User u=new User();
+				u.setId(id);
+				u.setPassword(newPwd);
+				userMapper.update(u);
+			}else{
+				throw new PasswordNotMatchException("密码不正确");
+			}
+		}
+	
 	}
 
 }

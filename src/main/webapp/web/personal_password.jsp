@@ -5,10 +5,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>我的订单 - 达内学子商城</title>
-    <link href="../css/orders.css" rel="Stylesheet"/>
-    <link href="../css/header.css" rel="Stylesheet"/>
-    <link href="../css/footer.css" rel="Stylesheet"/>
-    <link href="../css/personage.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/orders.css" rel="Stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/header.css" rel="Stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/footer.css" rel="Stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/personage.css" rel="stylesheet" />
 </head>
 <body>
 <!-- 页面顶部-->
@@ -30,69 +30,31 @@
 <!--我的订单内容区域 #container-->
 <div id="container" class="clearfix">
     <!-- 左边栏-->
-    <div id="leftsidebar_box" class="lf">
-        <div class="line"></div>
-        <dl class="my_order">
-            <dt >我的订单
-                <img src="../images/myOrder/myOrder2.png">
-            </dt>
-            <dd class="first_dd"><a href="orders.html">全部订单</a></dd>
-            <dd>
-                <a href="#">
-                    待付款
-                    <span><!--待付款数量--></span>
-                </a>
-            </dd>
-            <dd>
-                <a href="#">
-                    待收货
-                    <span><!--待收货数量-->1</span>
-                </a>
-            </dd>
-            <dd>
-                <a href="#">
-                    待评价<span><!--待评价数量--></span>
-                </a>
-            </dd>
-            <dd>
-                <a href="#">退货退款</a>
-            </dd>
-        </dl>
-
-        <dl class="footMark">
-            <dt >我的优惠卷<img src="../images/myOrder/myOrder1.png"></dt>
-        </dl>
-        <dl class="address">
-                <dt>收货地址<img src="../images/myOrder/myOrder1.png"></dt>
-				<dd><a href="addressAdmin.html">地址管理</a></dd>
-            </dl>
-            <dl class="count_managment">
-                <dt >帐号管理<img src="../images/myOrder/myOrder1.png"></dt>
-                <dd class="first_dd"><a href="personage.html">我的信息</a></dd>
-                <dd><a href="personal_password.html">安全管理</a></dd>
-            </dl>
-    </div>
+	<jsp:include page="left.jsp"></jsp:include>
     <!-- 右边栏-->
     <!--个人信息头部-->
     <div class="rightsidebar_box rt">
         <div class="rs_header">
-            <span ><a href="personage.html">我的信息</a></span>
-            <span class="rs_header_active"><a href="personal_password.html">安全管理</a></span>
+            <span ><a href="${pageContext.request.contextPath}/main/showPersonInfo.do">我的信息</a></span>
+            <span class="rs_header_active"><a href="${pageContext.request.contextPath}/main/showPersonal.do">安全管理</a></span>
         </div>
 
         <!--安全管理 -->
         <div class="rs_content">
             <p class="change_password_title">更改密码</p>
             <div class="new_password">
-                <span class="word">输入旧密码：</span><input type="password"/><span class="change_hint"></span>
+                <span class="word">输入旧密码：</span><input type="password" name="oldPwd" id="oldPwd"/>
+                <span class="change_hint" id="oldPwdSpan"></span>
             </div>
             <div class="new_password">
-                <span class="word">输入新密码：</span><input type="password"/><span class="change_hint"></span>
+                <span class="word">输入新密码：</span><input type="password" name="newPwd" id="newPwd"/>
+                <span class="change_hint" id="newPwdSpan"></span>
             </div>
             <div class="confirm_password">
-                <span class="word">确认新密码：</span><input type="password"/><span class="confirm_hint"></span>
+                <span class="word">确认新密码：</span><input type="password" name="checkNew" id="checkNew"/>
+                <span class="confirm_hint" id="checkNewSpan"></span>
             </div>
-            <div class="save_password">
+            <div class="save_password" id="save">
                 保存更改
             </div>
         </div>
@@ -104,22 +66,22 @@
 <!-- 品质保障，私人定制等-->
 <div id="foot_box">
     <div class="icon1 lf">
-        <img src="../images/footer/icon1.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon1.png" alt=""/>
 
         <h3>品质保障</h3>
     </div>
     <div class="icon2 lf">
-        <img src="../images/footer/icon2.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon2.png" alt=""/>
 
         <h3>私人定制</h3>
     </div>
     <div class="icon3 lf">
-        <img src="../images/footer/icon3.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon3.png" alt=""/>
 
         <h3>学员特供</h3>
     </div>
     <div class="icon4 lf">
-        <img src="../images/footer/icon4.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon4.png" alt=""/>
 
         <h3>专属特权</h3>
     </div>
@@ -128,8 +90,8 @@
 <div class="foot_bj">
     <div id="foot">
         <div class="lf">
-             <p class="footer1"><img src="../images/footer/logo.png" alt="" class=" footLogo"/></p>
-             <p class="footer2"><img src="../images/footer/footerFont.png" alt=""/></p>
+             <p class="footer1"><img src="${pageContext.request.contextPath}/images/footer/logo.png" alt="" class=" footLogo"/></p>
+             <p class="footer2"><img src="${pageContext.request.contextPath}/images/footer/footerFont.png" alt=""/></p>
         </div>
         <div class="foot_left lf">
             <ul>
@@ -148,18 +110,18 @@
                 <li><a href="#">关于达内</a></li>
                 <li><a href="#">联系我们</a></li>
                 <li>
-                    <img src="../images/footer/wechat.png" alt=""/>
-                    <img src="../images/footer/sinablog.png" alt=""/>
+                    <img src="${pageContext.request.contextPath}/images/footer/wechat.png" alt=""/>
+                    <img src="${pageContext.request.contextPath}/images/footer/sinablog.png" alt=""/>
                 </li>
             </ul>
         </div>
         <div class="service">
             <p>学子商城客户端</p>
-            <img src="../images/footer/ios.png" class="lf">
-            <img src="../images/footer/android.png" alt="" class="lf"/>
+            <img src="${pageContext.request.contextPath}/images/footer/ios.png" class="lf">
+            <img src="${pageContext.request.contextPath}/images/footer/android.png" alt="" class="lf"/>
         </div>
         <div class="download">
-            <img src="../images/footer/erweima.png">
+            <img src="${pageContext.request.contextPath}/images/footer/erweima.png">
         </div>
 		<!-- 页面底部-备案号 #footer -->
         <div class="record">
@@ -169,8 +131,97 @@
 
 </div>
 </body>
-<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
-<script src="../js/index.js"></script>
-<script src="../js/jquery.page.js"></script>
-<script type="text/javascript" src="../js/orders.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/index.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.page.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/orders.js"></script>
+<script type="text/javascript">
+
+	$(function(){
+	    $("#leftsidebar_box dd").hide();//所有的dd隐藏
+	    $("#leftsidebar_box .count_managment dd").show();//让帐号管理显示
+	  //列表标题后面的图片显示向右
+        $("#leftsidebar_box dt img").attr("src","../images/myOrder/myOrder2.png");
+      //帐号管理标题后面图片显示向下
+        $("#leftsidebar_box .count_managment").find('img').attr("src","../images/myOrder/myOrder1.png");
+	});
+
+	//ajax点击提交
+	$("#save").click(function(){
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/user/personal.do",
+			"type":"POST",
+			"data":"oldPwd="+$("#oldPwd").val()+"&newPwd="+$("#newPwd").val(),
+			"success":function(obj){
+				if(obj.state==0){
+					$("#oldPwdSpan").html(obj.message);
+					$("#oldPwdSpan").css("color","red");
+					$("#oldPwd").val("");
+				}else{
+					$("#newPwd").val("");
+					$("#oldPwd").val("");
+					$("#checkNew").val("");
+					$("#newPwdSpan").html("");
+					$("#oldPwdSpan").html("");
+					$("#checkNewSpan").html("");
+				}
+			}
+		});
+	})
+	
+	//验证旧密码格式正确
+	$("#oldPwd").blur(function(){
+		if(checkPasswordLength($("#oldPwd").val())){
+			$("#oldPwdSpan").html("密码格式正确");
+			$("#oldPwdSpan").css("color","green");
+		}else{
+			$("#oldPwdSpan").html("密码格式错误");
+			$("#oldPwdSpan").css("color","red");
+		}
+	})	
+	
+	//验证新密码格式正确
+	$("#newPwd").blur(function(){
+		if(checkPasswordLength($("#newPwd").val())){
+			$("#newPwdSpan").html("密码格式正确");
+			$("#newPwdSpan").css("color","green");
+		}else{
+			$("#newPwdSpan").html("密码格式错误");
+			$("#newPwdSpan").css("color","red");
+		}
+	})
+	
+	//验证新密码格式正确
+	$("#checkNew").blur(function(){
+		if(checkPasswordLength($("#checkNew").val())){
+			if(checkPasswordEquals()==true){
+				$("#checkNewSpan").html("密码可以使用");
+				$("#checkNewSpan").css("color","green");
+			}else{
+				$("#checkNewSpan").html("两次密码不一致");
+				$("#checkNewSpan").css("color","red");
+			}
+		}else{
+			$("#checkNewSpan").html("密码格式错误");
+			$("#checkNewSpan").css("color","red");
+		}
+	})
+	
+	
+	//验证密码的长度6~9
+	function checkPasswordLength(pwd){
+		return pwd.length>=6 && pwd.length<=9;
+	}
+
+	//验证新密码和确认密码是否一致
+	function checkPasswordEquals(){
+		var newPwdValue=$("#newPwd").val();
+		var checkNewValue=$("#checkNew").val();
+		if(newPwdValue==checkNewValue){
+			return true;
+		}else{
+			return false;
+		}
+	}
+</script>
 </html>
