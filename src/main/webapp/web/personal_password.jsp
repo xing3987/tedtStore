@@ -136,7 +136,7 @@
 <script src="${pageContext.request.contextPath}/js/jquery.page.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/orders.js"></script>
 <script type="text/javascript">
-
+	//左边栏
 	$(function(){
 	    $("#leftsidebar_box dd").hide();//所有的dd隐藏
 	    $("#leftsidebar_box .count_managment dd").show();//让帐号管理显示

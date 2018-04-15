@@ -1,18 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
     <title>我的订单 - 达内学子商城</title>
-    <link href="../css/orders.css" rel="stylesheet"/>
-    <link href="../css/header.css" rel="stylesheet"/>
-    <link href="../css/footer.css" rel="stylesheet"/>
-    <link href="../css/personage.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="../css/icon/css/bootstrap.min.css">
-	<link href="../css/icon/css/cropper.min.css" rel="stylesheet">
-	<link href="../css/icon/css/sitelogo.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../css/icon/css/font-awesome.min.css">
+    <link href="${pageContext.request.contextPath}/css/orders.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/footer.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/personage.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/icon/css/bootstrap.min.css">
+	<link href="${pageContext.request.contextPath}/css/icon/css/cropper.min.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/css/icon/css/sitelogo.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/icon/css/font-awesome.min.css">
 </head>
 <body>
 <!-- 页面顶部-->
@@ -48,43 +49,54 @@
             <!--头像-->
             <div class="rs_content_headPortrait">
 	                <span class="same">我的头像：</span>
-	                <img src="../images/personage/touxiang.png" alt="" id="icon" width="50px" height="50px"/>
+	                <img src="${pageContext.request.contextPath}/images/personage/touxiang.png" alt="" id="icon" width="50px" height="50px"/>
 	                <input type="hidden" name="iconPic" value="" id="iconPic">
 	                <span class="change_headPortrait same_click" data-toggle="modal" data-target="#avatar-modal" >更改头像</span>
 	            </div>
             <!--用户名-->
+       <form id="personInfo">
             <div class="rs_content_username">
                 <span class="same">用户名：</span>
-                <span class="same rs_username">${user.username}</span>
-                <input class="ed_username" value="" style="display: none;"/>
+                <span class="same rs_username"></span>
+                <input class="ed_username" value="${user.username}" name="username"/>
                 <span class="change_username same_click">更改用户名</span>
+                <span id="userNameSpan"></span>
             </div>
             <!--性别-->
-            <div class="rs_content_sex">
+            
+            <div class="rs_content_sex" style="display:none">
                 <span class="same">性别：</span>
                 <span class="man selected">
-                    <img src="../images/personage/select.png" alt=""/>男
+                    <img src="${pageContext.request.contextPath}/images/personage/select.png" alt=""/>男
                 </span>
                 <span class="women">
-                    <img src="../images/personage/un_select.png" alt=""/>女
+                    <img src="${pageContext.request.contextPath}/images/personage/un_select.png" alt=""/>女
                 </span>
             </div>
+            <div class="rs_content_sex">
+                <span class="same">性别：</span>
+                <input type="radio" name="gender" id="gender" value="0" 
+                	<c:if test="${user.gender==0}">checked</c:if>/>男
+                <input type="radio" name="gender" id="gender" value="1"
+                	<c:if test="${user.gender==1}">checked</c:if>/>女
+            </div>            
             <!--绑定电话-->
             <div class="rs_content_tel">
                 <span class="same">绑定电话：</span>
-                <input type="text" value="${user.phone}"/>
+                <input type="text" value="${user.phone}" name="phone"/>
             </div>
             <!--绑定邮箱-->
             <div class="rs_content_mail">
                 <span class="same">绑定邮箱：</span>
-                <input class="ed_email" value="" style="display: none;"/>
-                <span class="rs_mail">${user.email}</span>
+                <input class="ed_email" value="${user.email}" name="email"/>
+                <span class="rs_mail"></span>
                 <span class="same_click change_mail">更改邮箱</span>
             </div>
             <!--保存按钮-->
             <div class="save">
-                保存更改
+               	<a href="#" onclick="btnUpdate()" style="text-decoration-style: none;color:black;">保存更改</a>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -158,22 +170,22 @@
 <!-- 品质保障，私人定制等-->
 <div id="foot_box">
     <div class="icon1 lf">
-        <img src="../images/footer/icon1.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon1.png" alt=""/>
 
         <h3>品质保障</h3>
     </div>
     <div class="icon2 lf">
-        <img src="../images/footer/icon2.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon2.png" alt=""/>
 
         <h3>私人定制</h3>
     </div>
     <div class="icon3 lf">
-        <img src="../images/footer/icon3.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon3.png" alt=""/>
 
         <h3>学员特供</h3>
     </div>
     <div class="icon4 lf">
-        <img src="../images/footer/icon4.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon4.png" alt=""/>
 
         <h3>专属特权</h3>
     </div>
@@ -182,8 +194,8 @@
 <div class="foot_bj">
     <div id="foot">
         <div class="lf">
-             <p class="footer1"><img src="../images/footer/logo.png" alt="" class=" footLogo"/></p>
-             <p class="footer2"><img src="../images/footer/footerFont.png" alt=""/></p>
+             <p class="footer1"><img src="${pageContext.request.contextPath}/images/footer/logo.png" alt="" class=" footLogo"/></p>
+             <p class="footer2"><img src="${pageContext.request.contextPath}/images/footer/footerFont.png" alt=""/></p>
         </div>
         <div class="foot_left lf">
             <ul>
@@ -202,18 +214,18 @@
                 <li><a href="#">关于达内</a></li>
                 <li><a href="#">联系我们</a></li>
                 <li>
-                    <img src="../images/footer/wechat.png" alt=""/>
-                    <img src="../images/footer/sinablog.png" alt=""/>
+                    <img src="${pageContext.request.contextPath}/images/footer/wechat.png" alt=""/>
+                    <img src="${pageContext.request.contextPath}/images/footer/sinablog.png" alt=""/>
                 </li>
             </ul>
         </div>
         <div class="service">
             <p>学子商城客户端</p>
-            <img src="../images/footer/ios.png" class="lf">
-            <img src="../images/footer/android.png" alt="" class="lf"/>
+            <img src="${pageContext.request.contextPath}/images/footer/ios.png" class="lf">
+            <img src="${pageContext.request.contextPath}/images/footer/android.png" alt="" class="lf"/>
         </div>
         <div class="download">
-            <img src="../images/footer/erweima.png">
+            <img src="${pageContext.request.contextPath}/images/footer/erweima.png">
         </div>
 		<!-- 页面底部-备案号 #footer -->
         <div class="record">
@@ -222,16 +234,37 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<script src="../js/index.js"></script>
-<script src="../js/jquery.page.js"></script>
-<script type="text/javascript" src="../js/orders.js"></script>
-<script type="text/javascript" src="../js/personal.js"></script>
-<script src="../js/icon/bootstrap.min.js"></script>
-<script src="../js/icon/cropper.js"></script>
-<script src="../js/icon/sitelogo.js"></script>
-<script src="../js/icon/html2canvas.min.js" type="text/javascript" charset="utf-8"></script> 
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/index.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.page.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/orders.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/personal.js"></script>
+<script src="${pageContext.request.contextPath}/js/icon/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/icon/cropper.js"></script>
+<script src="${pageContext.request.contextPath}/js/icon/sitelogo.js"></script>
+<script src="${pageContext.request.contextPath}/js/icon/html2canvas.min.js" type="text/javascript" charset="utf-8"></script> 
 <script type="text/javascript"> 
+	
+	//段保护保存更改按钮
+	function btnUpdate(){
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/user/personInfo.do",
+			"data":$("#personInfo").serialize(),
+			"type":"POST",
+			"dataType":"json",
+			"success":function(obj){
+				if(obj.state==1){
+					location="${pageContext.request.contextPath}/main/showPersonInfo.do";
+				}else{
+					$("#userNameSpan").html(obj.message);
+					$("#userNameSpan").css("color","red");					
+				}
+			}
+		})
+	}
+
+
+
 //做个下简易的验证  大小 格式  
     $('#avatarInput').on('change', function(e) {
         var filemaxsize = 1024 * 5;//5M 
@@ -310,5 +343,15 @@ $("#icon").click(function() {
 		var url = $("#imageHead img").attr("src");
 		$('#icon').attr('src',url);
 	})
+	
+	//左边栏
+	$(function(){
+	    $("#leftsidebar_box dd").hide();//所有的dd隐藏
+	    $("#leftsidebar_box .count_managment dd").show();//让帐号管理显示
+	  //列表标题后面的图片显示向右
+        $("#leftsidebar_box dt img").attr("src","../images/myOrder/myOrder2.png");
+      //帐号管理标题后面图片显示向下
+        $("#leftsidebar_box .count_managment").find('img').attr("src","../images/myOrder/myOrder1.png");
+	});
 </script>
 </html>

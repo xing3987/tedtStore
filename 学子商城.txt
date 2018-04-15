@@ -181,12 +181,93 @@ ssm-学子商城
 			调整各个按钮的连接地址及左边下拉列表的显示
 		5.  在personInfo.jsp中调整页面以及各个连接
 		
+		6. 个人信息-修改
+			a.持久层
+			b.业务层			
+				在IUserService定义方法
+					void update(Integer id,String username,Integer gender,String phone,String email);
+				在UserService中实现方法
+				void update(Integer id,String username,Integer gender,String phone,String email){
+					User user=new User();
+					判断username是否存在
+					User u1=userMapper.selectByUsername(username);
+					如果u1==null||username.equals(u1.getUsername)//用户名为空或者是当前用户
+						user.setUsername(username);
+					否则
+							抛出用户名已经存在的异常					
+				}
+			c.控制层
+				UserController中添加public ResponseResult<Void> personInfo(HttpSession session, 
+							String username,Integer gender,String phone,String email)方法
+							
+							方法中注意重新session绑定user
+			
+			d.处理页面personInfo.jsp保存更改的功能
 		
 		
+***登陆拦截器**
+		Filter:web组件，web容器	过滤web组件---jsp,servlet等
+		Intercetor:spring组件  拦截controller---从前端到controller，从后端到前端时执行
+		1.	拦截：showPersonInfo.do
+					personInfo.do
+					showPersonal.do
+					personal.do
+		2.	在store中创建拦截器的包intercept
+				创建拦截器的类LoginInterceptor
+				public class LoginInterceptor implements HandlerInterceptor{}	
+					在perHandler方法中写：
+						1.判断session user是否为null
+						2.如果为null,重定向到登陆界面
+						3.如果不为null,继续执行controller方法	
+		3. 在spring-mvc.xml中配置拦截器
 		
+**地址管理******
+		创建表t_address,省市区存对应编号
+		create table t_address(
+			id int auto_increment primary key,
+			uid int not null,
+			recv_name varchar(50) not null,
+			recv_province varchar(6),
+			recv_city varchar(6) not null,
+			recv_area varchar(6) not null,
+			recv_distric varchar(100) not null,
+			recv_address varchar(100) not null,
+			recv_phone varchar(32) not null,
+			recv_tel varchar(32),
+			recv_zip varchar(6),
+			recv_tag varchar(10),
+			created_user varchar(50),
+			created_time date,
+			modified_user varchar(50),
+			modified_time date
+		)engine=InnoDB default charset=utf8
 		
-		
-		
+		1.添加地址，新建地址管理控制器：AddressController
+			a.显示页面并修改成.jsp格式，替换头部和左边栏
+			b.制作地址三级联动菜单
+				1.导入全国地址表t_dict.sql
+				
+				2.持久层
+					1.创建Province实体类
+						参照表的字段驼峰式创建bean
+					2.创建DectMapper接口，定义方法selectProvince;
+							List<Province> selectProvince();
+					3.新建DictMapper.xml用于保存省信息查询等功能
+						写查询语句
+					4.测试持久层
+				3.业务层	
+					创建接口IDictService,并定义方法
+						List<Province> getProvince();
+					创建接口的实现类:DictService,实现方法
+						public List<Province> getProvince(){}
+				4.控制器层("/dict")
+					创建控制器类：DictController
+						创建方法：
+							public ResponseResult<List<Province>> showProvince(){
+								List<Province> provinces=dictService.getProvince();
+							}
+						
+				
 		
 		
 					

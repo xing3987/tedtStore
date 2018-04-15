@@ -40,6 +40,31 @@
 		<!-- 注解驱动 -->
 		<mvc:annotation-driven />
 		
+		<!-- 配置拦截器 -->
+
+	 	<mvc:interceptors>
+			<mvc:interceptor>
+				<mvc:mapping path="/user/personal.do"/>
+				<bean class="store.interceptor.LoginInterceptor"/>			
+			</mvc:interceptor>	
+			<mvc:interceptor>
+				<mvc:mapping path="/user/personInfo.do"/>
+				<bean class="store.interceptor.LoginInterceptor"/>			
+			</mvc:interceptor>			
+			<mvc:interceptor>
+				<mvc:mapping path="/main/showPersonal.do"/>
+				<bean class="store.interceptor.LoginInterceptor"/>			
+			</mvc:interceptor>	
+			<mvc:interceptor>
+				<mvc:mapping path="/main/showPersonInfo.do"/>
+				<bean class="store.interceptor.LoginInterceptor"/>			
+			</mvc:interceptor>	
+						<mvc:interceptor>
+				<mvc:mapping path="/address/**"/>
+				<bean class="store.interceptor.LoginInterceptor"/>			
+			</mvc:interceptor>		
+		</mvc:interceptors>
+		
  	
 </beans>
 

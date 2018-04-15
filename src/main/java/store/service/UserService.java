@@ -1,4 +1,5 @@
 package store.service;
+import java.util.Date;
 
 import javax.annotation.Resource;
 
@@ -66,7 +67,7 @@ public class UserService implements IUserService{
 	}
 
 	/*
-	 *改变用户信息
+	 *改变用户密码
 	 */
 	public void changePassword(Integer id,String oldPwd,String newPwd){
 		User user=userMapper.selectById(id);
@@ -81,6 +82,27 @@ public class UserService implements IUserService{
 			}
 		}
 	
+	}
+
+	/*
+	 *改变用户信息
+	 */	
+	public void update(Integer id, String username, Integer gender, String phone, String email) {
+		User user=new User();
+		//User u1=userMapper.selectById(id);
+		User u1=userMapper.selectByUsername(username);
+		if(u1==null||id.equals(u1.getId())){
+			user.setUsername(username);
+			user.setGender(gender);
+			user.setPhone(phone);
+			user.setEmail(email);
+			user.setId(id);
+			Date date=new Date();
+			user.setModifiedTime(date);			
+			userMapper.update(user);
+		}else{
+			throw new UserNameAlreadyExistException("用户名已经存在");
+		}
 	}
 
 }

@@ -148,6 +148,36 @@ public class UserController extends BaseController{
 				userService.changePassword(this.getId(session), oldPwd, newPwd);
 				rr.setState(1);
 				rr.setMessage("密修改成功");
+				
+				//重新绑定session
+				User user=(User) session.getAttribute("user");
+				user.setPassword(newPwd);
+				session.setAttribute("user", user);
+				
+			} catch (Exception e) {
+				rr.setState(0);
+				rr.setMessage(e.getMessage());
+			}
+		return rr;
+	}
+	
+	@RequestMapping("/personInfo.do")
+	@ResponseBody
+	public ResponseResult<Void> personInfo(HttpSession session, String username,Integer gender,String phone,String email) {
+		ResponseResult<Void> rr = new ResponseResult<Void>();
+			try {
+				userService.update(this.getId(session), username, gender, phone, email);
+				
+				//重新绑定session
+				User user=(User) session.getAttribute("user");
+				user.setUsername(username);
+				user.setGender(gender);
+				user.setPhone(phone);
+				user.setEmail(email);
+				session.setAttribute("user", user);
+				
+				rr.setState(1);
+				rr.setMessage("修改信息成功");
 			} catch (Exception e) {
 				rr.setState(0);
 				rr.setMessage(e.getMessage());
