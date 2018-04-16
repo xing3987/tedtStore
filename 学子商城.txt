@@ -207,7 +207,7 @@ ssm-学子商城
 		
 ***登陆拦截器**
 		Filter:web组件，web容器	过滤web组件---jsp,servlet等
-		Intercetor:spring组件  拦截controller---从前端到controller，从后端到前端时执行
+		Interceptor:spring组件  拦截controller---从前端到controller，从后端到前端时执行
 		1.	拦截：showPersonInfo.do
 					personInfo.do
 					showPersonal.do
@@ -247,7 +247,7 @@ ssm-学子商城
 			b.制作地址三级联动菜单
 				1.导入全国地址表t_dict.sql
 				
-				2.持久层
+				2-1.持久层
 					1.创建Province实体类
 						参照表的字段驼峰式创建bean
 					2.创建DectMapper接口，定义方法selectProvince;
@@ -255,19 +255,87 @@ ssm-学子商城
 					3.新建DictMapper.xml用于保存省信息查询等功能
 						写查询语句
 					4.测试持久层
-				3.业务层	
+				2-2.业务层	
 					创建接口IDictService,并定义方法
 						List<Province> getProvince();
 					创建接口的实现类:DictService,实现方法
 						public List<Province> getProvince(){}
-				4.控制器层("/dict")
+				2-3.控制器层("/dict")
 					创建控制器类：DictController
 						创建方法：
 							public ResponseResult<List<Province>> showProvince(){
 								List<Province> provinces=dictService.getProvince();
 							}
-						
+				2-4.表示层写ajax异步提交代码
+						//显示城市信息
+						function getCity(provinceCode){
+							$.ajax({
+								"url":"${pageContext.request.contextPath}/dict/showCity.do",
+								"data":"provinceCode="+provinceCode,
+								"type":"GET",
+								"dataType":"json",
+								"success":function(obj){
+									var cityNames=obj.data;
+									$("#receiverCity").html("<option>&nbsp;&nbsp;- - - 选择市 - - -&nbsp;&nbsp;</option>");
+									for(var i=0;i<cityNames.length;i++){
+										$("#receiverCity").append("<option value='"+cityNames[i].cityCode+"'>"+cityNames[i].cityName+"</option>");
+									}
+								}
+							});
+						}
+						//显示省列表信息
+						$(function(){		
+							$.ajax({
+								"url":"${pageContext.request.contextPath}/dict/showProvince.do",
+								"type":"GET",
+								"dataType":"json",
+								"success":function(obj){
+									var provinceNames=obj.data;
+									for(var i=0;i<provinceNames.length;i++){
+										$("#receiverState").append("<option value='"+provinceNames[i].provinceCode+"'>"+provinceNames[i].provinceName+"</option>");
+									}
+								}
+							});
+						});
+				3.写城市和区域的代码（参照省份）		
+					1.创建City实体类
+					2.在DectMapper接口中定义方法selectCity
+					3.在配置DectMapper.xml中定义查询语句
+					4.测试持久层
+					5.在页面jsp文件上写ajax异步提交代码
 				
-		
-		
+				4.省市区函数调整
+					getProvince(provinceCode,cityCode,areaCode)
+					getCity(provinceCode,cityCode,areaCode)
+					getArea(cityCode,areaCode)
+					
+					如：getProvince(-1,-1,-1)
+				5.创建方法，通过code查询省份，城市，区域
+					selectProvinceNameByCode
+					selectCityNameByCode
+					selectAreaNameByCode
+					在DectMapper中配置查询语句
+					
+			c.添加地址点击提交按钮
+				1.	在bean包创建表对应的bena--Address.java
+				2.	在mapper包中创建AddressMapper接口，在接口中定义方法：
+						void insert(Address address);
+				3.	新建AddressMapper.xml文件
+				4.	定义insert节点，完成插入地址信息的功能 
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 					

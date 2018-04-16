@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="store.mapper.AddressMapper">
+
+	<insert id="insert" parameterType="store.bean.Address">
+		insert into t_address values(
+			#{id},
+			#{uid},
+			#{recvName},
+			#{recvProvince},
+			#{recvCity},
+			#{recvArea},
+			#{recvDistrict},
+			#{recvAddress},
+			#{recvPhone},
+			#{recvTel},
+			#{recvZip},
+			#{recvTag},
+			#{createdUser},
+			#{createdTime},
+			#{modifiedUser},
+			#{modifiedTime},
+			#{defaultAddress}
+		)
+	</insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -11,7 +11,7 @@ import store.bean.ResponseResult;
 import store.bean.User;
 import store.controller.MainController;
 import store.controller.UserController;
-import store.mapper.DectMapper;
+import store.mapper.DictMapper;
 import store.mapper.UserMapper;
 import store.service.IUserService;
 import store.service.UserService;
@@ -23,7 +23,7 @@ public class TestUser {
 		ApplicationContext ac=new ClassPathXmlApplicationContext(
 				"spring-dao.xml","spring-mvc.xml","spring-service.xml");
 		UserMapper userdao=ac.getBean("userMapper",UserMapper.class);
-		DectMapper dectdao=ac.getBean("dectMapper",DectMapper.class);
+		DictMapper dectMapper=ac.getBean("dectMapper",DictMapper.class);
 		IUserService userService=ac.getBean("userService",IUserService.class);
 		UserController userController=ac.getBean("userController",UserController.class);
 		MainController mainController=ac.getBean("mainController",MainController.class);

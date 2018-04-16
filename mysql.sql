@@ -27,7 +27,7 @@ create table t_address(
 	recv_province varchar(6),
 	recv_city varchar(6) not null,
 	recv_area varchar(6) not null,
-	recv_distric varchar(100) not null,
+	recv_district varchar(100) not null,
 	recv_address varchar(100) not null,
 	recv_phone varchar(32) not null,
 	recv_tel varchar(32),
@@ -36,10 +36,13 @@ create table t_address(
 	created_user varchar(50),
 	created_time date,
 	modified_user varchar(50),
-	modified_time date
+	modified_time date,
+	deafault_address int(1)
 )engine=InnoDB default charset=utf8;
 
+drop table t_address;
 desc t_address;
+select * from t_address;
 
 select * from t_dict_cities;
 select * from t_dict_areas;

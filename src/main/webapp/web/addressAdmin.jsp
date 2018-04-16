@@ -6,10 +6,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>我的订单 - 达内学子商城</title>
-    <link href="../css/orders.css" rel="stylesheet"/>
-    <link href="../css/header.css" rel="stylesheet"/>
-    <link href="../css/footer.css" rel="stylesheet"/>
-    <link href="../css/personage.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/orders.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/footer.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/personage.css" rel="stylesheet" />
 </head>
 <body>
 <!-- 页面顶部-->
@@ -48,12 +48,16 @@
 	            <!--收货人所在城市等信息-->
 	      <!--  <div data-toggle="distpicker" class="address_content">	-->  
 	            <div  class="address_content">
-					 <span class="red">*</span><span class="kuan">省&nbsp;&nbsp;份：</span>
-					 <select data-province="---- 选择省 ----" id="receiverState">
+					 <span class="red">*</span><span class="kuan" style="width:78px">省&nbsp;&nbsp;份：</span>
+					 <select data-province="---- 选择省 ----" id="receiverState" onchange="getCity(this.value)">
 					 	<option>&nbsp;&nbsp;- - - 选择省 - - -&nbsp;&nbsp;</option>
 					 </select>
-					  城市：<select data-city="---- 选择市 ----" id="receiverCity"></select>
-					  区/县：<select data-district="---- 选择区 ----" id="receiverDistrict"></select>
+					  城市：<select data-city="---- 选择市 ----" id="receiverCity" onchange="getArea(this.value)">
+					  	<option>&nbsp;&nbsp;- - - 选择市 - - -&nbsp;&nbsp;</option>
+					  </select>
+					  区/县：<select data-district="---- 选择区 ----" id="receiverDistrict">
+					  	<option>&nbsp;&nbsp;- - - 选择区 - - -&nbsp;&nbsp;</option>
+					  </select>
 				</div> 
 	            
 	            
@@ -122,22 +126,22 @@
 <!-- 品质保障，私人定制等-->
 <div id="foot_box">
     <div class="icon1 lf">
-        <img src="../images/footer/icon1.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon1.png" alt=""/>
 
         <h3>品质保障</h3>
     </div>
     <div class="icon2 lf">
-        <img src="../images/footer/icon2.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon2.png" alt=""/>
 
         <h3>私人定制</h3>
     </div>
     <div class="icon3 lf">
-        <img src="../images/footer/icon3.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon3.png" alt=""/>
 
         <h3>学员特供</h3>
     </div>
     <div class="icon4 lf">
-        <img src="../images/footer/icon4.png" alt=""/>
+        <img src="${pageContext.request.contextPath}/images/footer/icon4.png" alt=""/>
 
         <h3>专属特权</h3>
     </div>
@@ -146,8 +150,8 @@
 <div class="foot_bj">
     <div id="foot">
         <div class="lf">
-             <p class="footer1"><img src="../images/footer/logo.png" alt="" class=" footLogo"/></p>
-             <p class="footer2"><img src="../images/footer/footerFont.png" alt=""/></p>
+             <p class="footer1"><img src="${pageContext.request.contextPath}/images/footer/logo.png" alt="" class=" footLogo"/></p>
+             <p class="footer2"><img src="${pageContext.request.contextPath}/images/footer/footerFont.png" alt=""/></p>
         </div>
         <div class="foot_left lf">
             <ul>
@@ -166,18 +170,18 @@
                 <li><a href="#">关于达内</a></li>
                 <li><a href="#">联系我们</a></li>
                 <li>
-                    <img src="../images/footer/wechat.png" alt=""/>
-                    <img src="../images/footer/sinablog.png" alt=""/>
+                    <img src="${pageContext.request.contextPath}/images/footer/wechat.png" alt=""/>
+                    <img src="${pageContext.request.contextPath}/images/footer/sinablog.png" alt=""/>
                 </li>
             </ul>
         </div>
         <div class="service">
             <p>学子商城客户端</p>
-            <img src="../images/footer/ios.png" class="lf">
-            <img src="../images/footer/android.png" alt="" class="lf"/>
+            <img src="${pageContext.request.contextPath}/images/footer/ios.png" class="lf">
+            <img src="${pageContext.request.contextPath}/images/footer/android.png" alt="" class="lf"/>
         </div>
         <div class="download">
-            <img src="../images/footer/erweima.png">
+            <img src="${pageContext.request.contextPath}/images/footer/erweima.png">
         </div>
 		<!-- 页面底部-备案号 #footer -->
         <div class="record">
@@ -186,13 +190,47 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
-<script src="../js/jquery.page.js"></script>
-<script type="text/javascript" src="../js/orders.js"></script>
-<script type="text/javascript" src="../js/distpicker.data.js"></script>
-<script type="text/javascript" src="../js/distpicker.js"></script>
-<script type="text/javascript" src="../js/personal.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.page.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/orders.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/distpicker.data.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/distpicker.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/personal.js"></script>
 <script type="text/javascript">
+	//显示区域
+	function getArea(cityCode){
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/dict/showArea.do",
+			"data":"cityCode="+cityCode,
+			"type":"GET",
+			"dataType":"json",
+			"success":function(obj){
+				var areaNames=obj.data;
+				$("#receiverDistrict").html("<option>&nbsp;&nbsp;- - - 选择区 - - -&nbsp;&nbsp;</option>");
+				for(var i=0;i<areaNames.length;i++){
+					$("#receiverDistrict").append("<option value='"+areaNames[i].areaCode+"'>"+areaNames[i].areaName+"</option>");
+				}
+			}
+		});
+	}
+
+	//显示城市信息
+	function getCity(provinceCode){
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/dict/showCity.do",
+			"data":"provinceCode="+provinceCode,
+			"type":"GET",
+			"dataType":"json",
+			"success":function(obj){
+				var cityNames=obj.data;
+				$("#receiverCity").html("<option>&nbsp;&nbsp;- - - 选择市 - - -&nbsp;&nbsp;</option>");
+				for(var i=0;i<cityNames.length;i++){
+					$("#receiverCity").append("<option value='"+cityNames[i].cityCode+"'>"+cityNames[i].cityName+"</option>");
+				}
+			}
+		});
+	}
+	//显示省列表信息
 	$(function(){		
 		$.ajax({
 			"url":"${pageContext.request.contextPath}/dict/showProvince.do",
@@ -201,7 +239,7 @@
 			"success":function(obj){
 				var provinceNames=obj.data;
 				for(var i=0;i<provinceNames.length;i++){
-					$("#receiverState").append("<option>"+provinceNames[i].provinceName+"</option>");
+					$("#receiverState").append("<option value='"+provinceNames[i].provinceCode+"'>"+provinceNames[i].provinceName+"</option>");
 				}
 			}
 		});
@@ -219,9 +257,9 @@
 	    $("#leftsidebar_box dd").hide();//所有的dd隐藏
 	    $("#leftsidebar_box .address dd").show();//让帐号管理显示
 	  //列表标题后面的图片显示向右
-        $("#leftsidebar_box dt img").attr("src","../images/myOrder/myOrder2.png");
+        $("#leftsidebar_box dt img").attr("src","${pageContext.request.contextPath}/images/myOrder/myOrder2.png");
       //帐号管理标题后面图片显示向下
-        $("#leftsidebar_box .address").find('img').attr("src","../images/myOrder/myOrder1.png");
+        $("#leftsidebar_box .address").find('img').attr("src","${pageContext.request.contextPath}/images/myOrder/myOrder1.png");
 	});
 </script>
 </html>

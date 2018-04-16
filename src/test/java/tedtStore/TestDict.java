@@ -6,23 +6,80 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import store.bean.Address;
+import store.bean.Area;
+import store.bean.City;
 import store.bean.Province;
-import store.mapper.DectMapper;
+import store.mapper.AddressMapper;
+import store.mapper.DictMapper;
 
 public class TestDict {
 	ApplicationContext ac=new ClassPathXmlApplicationContext(
 			"spring-dao.xml","spring-mvc.xml","spring-service.xml");
-	DectMapper dectdao=ac.getBean("dectMapper",DectMapper.class);
-	
+	DictMapper dictdao=ac.getBean("dictMapper",DictMapper.class);
+	AddressMapper addressdao=ac.getBean("addressMapper",AddressMapper.class);
 	/*-----------------------地址管理addressAdmin.jsp----------------------------*/
 	
 	
 	@Test
 	//测试查询省
 	public void dectSelectProvinces(){
-		List<Province> provinces=dectdao.selectProvince();
+		List<Province> provinces=dictdao.selectProvince();
 		System.out.println(provinces);
 	}
 	
+	@Test
+	//测试查询城市
+	public void dectSelectCitysByProvince(){
+		List<City> citys=dictdao.selectCitysByProvince("120000");
+		System.out.println(citys);		
+	}
 	
+	@Test
+	//测试查询区域
+	public void dectSelectAreaByCity(){
+		List<Area> areas=dictdao.selectAreaByCity("110100");
+		System.out.println(areas);
+	}
+	
+	@Test
+	//测试通过编号查询区域
+	public void dectSelectAreaByCode(){
+		String area=dictdao.selectAreaNameByCode("110101");
+		System.out.println(area);
+	}
+	
+	@Test
+	//测试通过编号查询区域
+	public void dectSelectCityByCode(){
+		String city=dictdao.selectCityNameByCode("110100");
+		System.out.println(city);
+	}
+	
+	@Test
+	//测试通过编号查询区域
+	public void dectSelectProvinceByCode(){
+		String province=dictdao.selectProvinceNameByCode("110000");
+		System.out.println(province);
+	}
+	
+	@Test
+	//测试插入地址数据
+	public void addressInsert(){
+//		Address address=new Address(null,1,"x","x","x",
+//				"x","x","x","x","x",
+//				"x","x","x",null,"x",
+//				null,1);
+		Address address=new Address();
+		address.setUid(1);
+		address.setRecvName("y");
+		address.setRecvArea("y");
+		address.setRecvCity("y");
+		address.setRecvProvince("y");
+		address.setRecvPhone("y");
+		address.setRecvAddress("y");
+		address.setRecvDistrict("y");
+		addressdao.insert(address);
+		
+	}
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="store.mapper.DictMapper">
+
+
+	
+	<select id="selectProvince" resultMap="ProvinceMap">
+		select id,province_code,province_name from t_dict_provinces;
+	</select>
+	<select id="selectCitysByProvince" parameterType="String" resultMap="CityMap">
+		select city_code,city_name from t_dict_cities where province_code=#{provinceCode}
+	</select>
+	<select id="selectAreaByCity" parameterType="String" resultMap="AreaMap">
+		select area_code,area_name from t_dict_areas where city_code=#{cityCode}
+	</select>
+	
+	<!-- 通过编码查询名字 -->
+	<select id="selectAreaNameByCode" parameterType="String" resultType="String">
+		select area_name as areaName from t_dict_areas where area_code=#{areaCode};
+	</select>
+	<select id="selectCityNameByCode" parameterType="String" resultType="String">
+		select city_name as cityName from t_dict_cities where city_code=#{cityCode};
+	</select>
+	<select id="selectProvinceNameByCode" parameterType="String" resultType="String">
+		select province_name as provinceName from t_dict_provinces where province_code=#{provinceCode};
+	</select>	
+	<!-- 由于字段名与实体的属性名字不一样，所以创建resultMap映射，使它们对应 -->
+	<resultMap type="store.bean.Province" id="ProvinceMap">
+		<result property="provinceCode" column="province_code"/>
+		<result property="provinceName" column="province_name"/>
+	</resultMap>
+	<resultMap type="store.bean.City" id="CityMap">
+		<result property="provinceCode" column="province_code"/>
+		<result property="cityCode" column="city_code"/>
+		<result property="cityName" column="city_name"/>
+	</resultMap>
+	<resultMap type="store.bean.Area" id="AreaMap">
+		<result property="cityCode" column="city_code"/>
+		<result property="areaCode" column="area_code"/>
+		<result property="areaName" column="area_name"/>
+	</resultMap>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
