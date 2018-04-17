@@ -12,12 +12,14 @@ import store.bean.City;
 import store.bean.Province;
 import store.mapper.AddressMapper;
 import store.mapper.DictMapper;
+import store.service.AddressService;
 
 public class TestDict {
 	ApplicationContext ac=new ClassPathXmlApplicationContext(
 			"spring-dao.xml","spring-mvc.xml","spring-service.xml");
 	DictMapper dictdao=ac.getBean("dictMapper",DictMapper.class);
 	AddressMapper addressdao=ac.getBean("addressMapper",AddressMapper.class);
+	AddressService addressService=ac.getBean("addressService",AddressService.class);
 	/*-----------------------地址管理addressAdmin.jsp----------------------------*/
 	
 	
@@ -66,6 +68,22 @@ public class TestDict {
 	@Test
 	//测试插入地址数据
 	public void addressInsert(){
+		
+		Address address=new Address();
+		address.setUid(2);
+		address.setRecvName("y");
+		address.setRecvArea("110101");
+		address.setRecvCity("110100");
+		address.setRecvProvince("110000");
+		address.setRecvPhone("y");
+		address.setRecvAddress("y");
+		address.setRecvDistrict("y");
+		addressService.addAddress(address);;
+	}
+	
+	@Test
+	//测试插入地址数据
+	public void AddressServerInsert(){
 //		Address address=new Address(null,1,"x","x","x",
 //				"x","x","x","x","x",
 //				"x","x","x",null,"x",
@@ -73,13 +91,21 @@ public class TestDict {
 		Address address=new Address();
 		address.setUid(1);
 		address.setRecvName("y");
-		address.setRecvArea("y");
-		address.setRecvCity("y");
-		address.setRecvProvince("y");
+		address.setRecvArea("110101");
+		address.setRecvCity("110100");
+		address.setRecvProvince("110000");
 		address.setRecvPhone("y");
 		address.setRecvAddress("y");
 		address.setRecvDistrict("y");
 		addressdao.insert(address);
 		
+	}
+	
+	
+	@Test
+	//测试通过编号查询区域
+	public void addressSelectByUid(){
+		List<Address> address=addressdao.selectByUid(11);
+		System.out.println(address);
 	}
 }

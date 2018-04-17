@@ -26,6 +26,36 @@
 			#{defaultAddress}
 		)
 	</insert>
+	
+	<update id="setCancel">
+		update t_address set default_address=0 where uid=#{uid}
+	</update>
+
+	<update id="setDefault">
+		update t_address set default_address=1 where id=#{id}
+	</update>
+	
+	<select id="selectByUid" parameterType="java.lang.Integer" resultMap="addressMap">
+		select * from t_address where uid=#{uid}
+	</select>
+	<resultMap type="store.bean.Address" id="addressMap">
+		<result property="recvName" column="recv_name"/>
+		<result property="recvProvince" column="recv_province"/>
+		<result property="recvCity" column="recv_city"/>
+		<result property="recvArea" column="recv_area"/>
+		<result property="recvDistrict" column="recv_district"/>
+		<result property="recvAddress" column="recv_address"/>
+		<result property="recvTel" column="recv_tel"/>
+		<result property="recvPhone" column="recv_phone"/>
+		<result property="recvZip" column="recv_zip"/>
+		<result property="recvTag" column="recv_tag"/>
+		<result property="createdUser" column="created_user"/>
+		<result property="createdTime" column="created_time"/>
+		<result property="modifiedUser" column="modified_user"/>
+		<result property="modifiedTime" column="modified_time"/>
+		<result property="defaultAddress" column="default_address"/>		
+	</resultMap>
+	
 </mapper>
 
 

@@ -14,7 +14,7 @@ import store.mapper.DictMapper;
 public class DictService implements IDictService{
 
 	@Resource
-	DictMapper dictMapper;
+	private DictMapper dictMapper;
 	//实现返回所有省份的方法
 	public List<Province> getProvince() {
 		List<Province> provinces=dictMapper.selectProvince();

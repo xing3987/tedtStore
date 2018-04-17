@@ -323,18 +323,67 @@ ssm-学子商城
 				3.	新建AddressMapper.xml文件
 				4.	定义insert节点，完成插入地址信息的功能 
 				
+			d.添加收货地址
+				1.持久层
+					增加通过uid查询Address方法
+				2.业务层
+					1.在service包中，新建IAddressService,定义方法
+						void addAddress(Address address);
+							
+					2.新建AddressService实现类，实现以上方法
+						public void addAddress(Address address){}
 				
+					3.从address中获取省市区的code,调用dictMapper中提供的方法，
+					     获取到code对应的name,再把3个name 用+连接成新串，把此字符串
+					    设置到address中
+					    address.setDistrict();
+					4.给isDefault设置值
+						调用selectByUid方法，该方法返回list
+						如果list.size()>0,address的isDefault
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				3.控制层
+					在AddressController定义方法
+						public ResponseResult<Void> address(HttpSession session,
+						@RequestParam("receiverName") String recvName,
+						@RequestParan("receiverState) String recvProvince,
+						@RequestParam("receiverCity") String recvCity,
+						@RequestParam("receiverDistrict") String recvArea,
+						@RequestParam("receiverAddress") String recvAddress,
+						@RequestParam("receiverMobile") String recvPhone,
+						@RequestParam("receiverPhone") String recvTel,
+						@RequestParam("receiverZip") String recvZip,
+						@RequestParam("addressName") String recvTag){
+							1.创建rr对象
+							2.调用业务层方法
+							3.设置rr的状态码和信息
+							4.return rr;
+						}
+			
+		2.显示地址
+			1.在IAddressService接口中，定义方法
+				List<Address> getAddressByUid(Integer uid){}
+			2.在AddressService类中实现方法
+				public List<Address> getAddressByUid(Integer uid){}
+			3.控制层public ResponseResult<List<Address>> getAddressByUid(HttpSession session){}	
+			4.jsp页面显示收货人信息，通过ajax把从控制层得到的json串转换成页面
+		
+		3.显示地址设置默认
+			1.在AddressMapper接口定义2个方法：
+				Integer setCancel(Integer uid)//把登陆用户所有的default_address设置为0
+				Integer setDefault(Integer id)//把选中的用户的default_address设置为1
+			2.在AddressMapper.xml文件中定义这两个方法
+				update t_address set default_address=0 where uid=#{uid}
+				update t_address set default_address=1 where id=#{id}	
+			     在IAddressService接口中定义方法
+			     	void setDefault(Integer uid,Integer id);
+			   在AddressService类中实现方法
+			   	public void setDefault(Integer uid,Integer id){
+			   		1.调用持久层方法setCancel(),如果方法返回0，抛出异常
+			   		2.调用持久层方法setDefault(),如果方法返回0,抛出异常
+			   	}
+			3.在控制层定义方法	
+				public ResponseResult<Void> getDefault(HttpSession session,Integer id){}
+			4.定义页面的ajax函数	
 				
 				
 				

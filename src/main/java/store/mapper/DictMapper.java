@@ -5,7 +5,7 @@ import java.util.List;
 import store.bean.Area;
 import store.bean.City;
 import store.bean.Province;
-
+//省市区查询等方法管理接口
 public interface DictMapper {
 	public List<Province> selectProvince();//查询返回省份数据
 	public List<City> selectCitysByProvince(String provinceCode);//通过省分code查询出城市 

@@ -40,7 +40,17 @@ $(".save_recipient").click(function(){
 	var receiverAddress = $("#receiverAddress").val();// 
 	var receiverMobile = $("#receiverMobile").val();
 	if(receiverName && receiverState && receiverCity && receiverDistrict && receiverAddress && receiverMobile){
-		$("form").submit();
+		$.ajax({
+			"url":"../address/addAddress.do",
+			"data":$("#addressForm").serialize(),
+			"type":"POST",
+			"dataType":"json",
+			"success":function(obj){
+				window.location.href="../address/showAddress.do";
+			}
+		});
+		
+		//$("form").submit();
 	}else{
 		alert("请将必填信息填写完整");
 	}

@@ -40,7 +40,7 @@
         </div>
         <!--收货人信息填写栏-->
         <div class="rs_content">
-        	<form method="post" action="">
+        	<form method="post" id="addressForm" action="">
 	            <!--收货人姓名-->
 	            <div class="recipients">
 	                <span class="red">*</span><span class="kuan">收货人：</span><input type="text" name="receiverName" id="receiverName"/>
@@ -49,13 +49,13 @@
 	      <!--  <div data-toggle="distpicker" class="address_content">	-->  
 	            <div  class="address_content">
 					 <span class="red">*</span><span class="kuan" style="width:78px">省&nbsp;&nbsp;份：</span>
-					 <select data-province="---- 选择省 ----" id="receiverState" onchange="getCity(this.value)">
+					 <select data-province="---- 选择省 ----"   id="receiverState" name="receiverState" onchange="getCity(this.value)">
 					 	<option>&nbsp;&nbsp;- - - 选择省 - - -&nbsp;&nbsp;</option>
 					 </select>
-					  城市：<select data-city="---- 选择市 ----" id="receiverCity" onchange="getArea(this.value)">
+					  城市：<select data-city="---- 选择市 ----"  id="receiverCity" name="receiverCity" onchange="getArea(this.value)">
 					  	<option>&nbsp;&nbsp;- - - 选择市 - - -&nbsp;&nbsp;</option>
 					  </select>
-					  区/县：<select data-district="---- 选择区 ----" id="receiverDistrict">
+					  区/县：<select data-district="---- 选择区 ----"  id="receiverDistrict" name="receiverDistrict">
 					  	<option>&nbsp;&nbsp;- - - 选择区 - - -&nbsp;&nbsp;</option>
 					  </select>
 				</div> 
@@ -87,36 +87,6 @@
             <div class="address_information_manage">
                 <div class="aim_title">
                     <span class="dzmc dzmc_title">地址名称</span><span class="dzxm dzxm_title">姓名</span><span class="dzxq dzxq_title">地址详情</span><span class="lxdh lxdh_title">联系电话</span><span class="operation operation_title">操作</span>
-                </div>
-                <div class="aim_content_one aim_active">
-                    <span class="dzmc dzmc_active">办公室</span>
-                    <span class="dzxm dzxm_normal">杨洋</span>
-                    <span class="dzxq dzxq_normal">北京市海淀区北下关街道中鼎大厦B座331</span>
-                    <span class="lxdh lxdh_normal">18435110514</span>
-                    <span class="operation operation_normal">
-                    	<span class="aco_change">修改</span>|<span class="aco_delete">删除</span>
-                    </span>
-                    <span class="swmr swmr_normal"></span>
-                </div>
-                <div class="aim_content_two">
-                    <span class="dzmc dzmc_normal">家里</span>
-                    <span class="dzxm dzxm_normal">杨洋</span>
-                    <span class="dzxq dzxq_normal">北京市大兴区西红门镇瑞海家园</span>
-                    <span class="lxdh lxdh_normal">13788882346</span>
-                    <span class="operation operation_normal">
-                    	<span class="aco_change">修改</span>|<span class="aco_delete">删除</span>
-                    </span>
-                    <span class="swmr swmr_normal">设为默认</span>
-                </div>
-                <div class="aim_content_three">
-                    <span class="dzmc dzmc_normal">宿舍</span>
-                    <span class="dzxm dzxm_normal">杨洋</span>
-                    <span class="dzxq dzxq_normal">山西省小店区山西大学商务学院</span>
-                    <span class="lxdh lxdh_normal">13799992347</span>
-                    <span class="operation operation_normal">
-                    	<span class="aco_change">修改</span>|<span class="aco_delete">删除</span>
-                    </span>
-                    <span class="swmr swmr_normal">设为默认</span>
                 </div>
             </div>
         </div>
@@ -197,6 +167,73 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/distpicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/personal.js"></script>
 <script type="text/javascript">
+
+	//显示订单地址
+	$(function(){
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/address/getAddressByUid.do",
+			"type":"GET",
+			"dataType":"json",
+			"success":function(obj){
+				 $(".address_information_manage").html(
+		            '<div class="aim_title">'+
+	                    '<span class="dzmc dzmc_title">地址名称</span><span class="dzxm dzxm_title">姓名</span><span class="dzxq dzxq_title">地址详情</span><span class="lxdh lxdh_title">联系电话</span><span class="operation operation_title">操作</span>'+
+	                '</div>'
+				 );
+					
+				for(var i=0;i<obj.data.length;i++){
+					if(obj.data[i].defaultAddress==1){//默认地址
+			          var str1=
+			        	'<div class="aim_content_one aim_active">'+
+		                    '<span class="dzmc dzmc_active">'+obj.data[i].recvTag+'</span>'+
+		                    '<span class="dzxm dzxm_normal">'+obj.data[i].recvName+'</span>'+
+		                    '<span class="dzxq dzxq_normal">'+obj.data[i].recvDistrict+obj.data[i].recvAddress+'</span>'+
+		                    '<span class="lxdh lxdh_normal">'+obj.data[i].recvPhone+'</span>'+
+		                    '<span class="operation operation_normal">'+
+		                    	'<span class="aco_change">修改</span>|<span class="aco_delete">删除</span>'+
+		                    '</span>'+
+		                    '<span class="swmr swmr_normal"></span>'+
+		                '</div>';
+		                $(".address_information_manage").append(str1);
+
+					}else{//非默认地址
+						var str2=
+		                '<div class="aim_content_two">'+
+		                    '<span class="dzmc dzmc_normal">'+obj.data[i].recvTag+'</span>'+
+		                    '<span class="dzxm dzxm_normal">'+obj.data[i].recvName+'</span>'+
+		                    '<span class="dzxq dzxq_normal">'+obj.data[i].recvDistrict+obj.data[i].recvAddress+'</span>'+
+		                    '<span class="lxdh lxdh_normal">'+obj.data[i].recvPhone+'</span>'+
+		                    '<span class="operation operation_normal">'+
+		                    	'<span class="aco_change">修改</span>|<span class="aco_delete">删除</span>'+
+		                    '</span>'+
+		                    '<span class="swmr swmr_normal">设为默认</span>'+
+	                	'</div>';
+						 $(".address_information_manage").append(str2);
+					}
+				}
+				
+
+				
+			}
+		})
+	})
+
+	//点击设置默认地址按键
+	$(".swmr swmr_normal").click(function(){
+		alert($(this).attr("id"));
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/address/setDefault.do",
+			"data":"id="+$(this).attr("id"),
+			"type":"GET",
+			"dataType":"json",
+			"success":function(obj){
+				
+			}			
+		});		
+		setDefault(this);
+	});
+
+
 	//显示区域
 	function getArea(cityCode){
 		$.ajax({
