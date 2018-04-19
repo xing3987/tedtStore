@@ -43,6 +43,7 @@ alter table t_address change deafault_address default_address int(1);
 drop table t_address;
 desc t_address;
 select * from t_address;
+update t_address set default_address=1 where id=12;
 delete from t_address where uid=11;
 select * from t_dict_cities;
 select * from t_dict_areas;

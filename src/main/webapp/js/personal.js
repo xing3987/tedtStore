@@ -37,19 +37,32 @@ $(".save_recipient").click(function(){
 	var receiverState = $("#receiverState").val();// 省
 	var receiverCity = $("#receiverCity").val();// 市
 	var receiverDistrict = $("#receiverDistrict").val();// 区/县
-	var receiverAddress = $("#receiverAddress").val();// 
-	var receiverMobile = $("#receiverMobile").val();
+	var receiverAddress = $("#receiverAddress").val();// 详细地址
+	var receiverMobile = $("#receiverMobile").val();//电话
 	if(receiverName && receiverState && receiverCity && receiverDistrict && receiverAddress && receiverMobile){
-		$.ajax({
-			"url":"../address/addAddress.do",
-			"data":$("#addressForm").serialize(),
-			"type":"POST",
-			"dataType":"json",
-			"success":function(obj){
-				window.location.href="../address/showAddress.do";
-			}
-		});
-		
+		if($(".save_recipient").html()=="修改"){
+			$.ajax({
+				"url":"../address/updateAddress.do",
+				"data":$("#addressForm").serialize(),
+				"type":"POST",
+				"dataType":"json",
+				"success":function(obj){
+					//window.location.href="../address/showAddress.do";
+					getAllAddress();
+					$(".save_recipient").html("保存收货人信息");
+				}
+			});
+		}else{//添加					
+			$.ajax({
+				"url":"../address/addAddress.do",
+				"data":$("#addressForm").serialize(),
+				"type":"POST",
+				"dataType":"json",
+				"success":function(obj){
+					window.location.href="../address/showAddress.do";
+				}
+			});
+		}
 		//$("form").submit();
 	}else{
 		alert("请将必填信息填写完整");

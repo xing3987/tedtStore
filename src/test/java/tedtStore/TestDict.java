@@ -108,4 +108,11 @@ public class TestDict {
 		List<Address> address=addressdao.selectByUid(11);
 		System.out.println(address);
 	}
+	
+	@Test
+	//²âÊÔÉ¾³ıµØÖ·
+	public void deleteByUid(){
+		addressdao.deleteById(13);
+	}
+	
 }

@@ -5,6 +5,10 @@
   
 <mapper namespace="store.mapper.AddressMapper">
 
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from t_address where id=#{id}
+	</delete>
+
 	<insert id="insert" parameterType="store.bean.Address">
 		insert into t_address values(
 			#{id},
@@ -27,6 +31,22 @@
 		)
 	</insert>
 	
+	<update id="updateById" parameterType="store.bean.Address">
+		update t_address set 
+			recv_name=#{recvName},
+			recv_province=#{recvProvince},
+			recv_city=#{recvCity},
+			recv_area=#{recvArea},
+			recv_district=#{recvDistrict},
+			recv_address=#{recvAddress},
+			recv_phone=#{recvPhone},
+			recv_tel=#{recvTel},
+			recv_zip=#{recvZip},
+			recv_tag=#{recvTag}
+		where
+			id=#{id}		
+	</update>
+	
 	<update id="setCancel">
 		update t_address set default_address=0 where uid=#{uid}
 	</update>
@@ -37,6 +57,9 @@
 	
 	<select id="selectByUid" parameterType="java.lang.Integer" resultMap="addressMap">
 		select * from t_address where uid=#{uid}
+	</select>
+		<select id="selectAddressById" parameterType="java.lang.Integer" resultMap="addressMap">
+		select * from t_address where id=#{id}
 	</select>
 	<resultMap type="store.bean.Address" id="addressMap">
 		<result property="recvName" column="recv_name"/>

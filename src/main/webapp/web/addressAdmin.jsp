@@ -41,6 +41,7 @@
         <!--收货人信息填写栏-->
         <div class="rs_content">
         	<form method="post" id="addressForm" action="">
+        		<input type="hidden" name="id" id="id"/>
 	            <!--收货人姓名-->
 	            <div class="recipients">
 	                <span class="red">*</span><span class="kuan">收货人：</span><input type="text" name="receiverName" id="receiverName"/>
@@ -49,10 +50,10 @@
 	      <!--  <div data-toggle="distpicker" class="address_content">	-->  
 	            <div  class="address_content">
 					 <span class="red">*</span><span class="kuan" style="width:78px">省&nbsp;&nbsp;份：</span>
-					 <select data-province="---- 选择省 ----"   id="receiverState" name="receiverState" onchange="getCity(this.value)">
+					 <select data-province="---- 选择省 ----"   id="receiverState" name="receiverState" onchange="getCity(this.value,-1,-1)">
 					 	<option>&nbsp;&nbsp;- - - 选择省 - - -&nbsp;&nbsp;</option>
 					 </select>
-					  城市：<select data-city="---- 选择市 ----"  id="receiverCity" name="receiverCity" onchange="getArea(this.value)">
+					  城市：<select data-city="---- 选择市 ----"  id="receiverCity" name="receiverCity" onchange="getArea(this.value,-1)">
 					  	<option>&nbsp;&nbsp;- - - 选择市 - - -&nbsp;&nbsp;</option>
 					  </select>
 					  区/县：<select data-district="---- 选择区 ----"  id="receiverDistrict" name="receiverDistrict">
@@ -71,7 +72,7 @@
 	            </div>
 	            <!--邮政编码-->
 	            <div class="address_postcode">
-	                <span class="red">&nbsp;</span class="kuan"><span>邮政编码：</span>&nbsp;<input type="text" name="receiverZip"/>
+	                <span class="red">&nbsp;</span class="kuan"><span>邮政编码：</span>&nbsp;<input type="text" id="recerverZip" name="receiverZip"/>
 	            </div>
 	            <!--地址名称-->
 	            <div class="address_name">
@@ -167,9 +168,21 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/distpicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/personal.js"></script>
 <script type="text/javascript">
+	//通过id删除地址
+	function deleteById(id){
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/address/deleteById.do",
+			"type":"GET",
+			"data":"id="+id,
+			"dataType":"json",
+			"success":function(obj){
+				getAllAddress();
+			}
+		});
+	}
 
 	//显示订单地址
-	$(function(){
+	function getAllAddress(){
 		$.ajax({
 			"url":"${pageContext.request.contextPath}/address/getAddressByUid.do",
 			"type":"GET",
@@ -190,12 +203,11 @@
 		                    '<span class="dzxq dzxq_normal">'+obj.data[i].recvDistrict+obj.data[i].recvAddress+'</span>'+
 		                    '<span class="lxdh lxdh_normal">'+obj.data[i].recvPhone+'</span>'+
 		                    '<span class="operation operation_normal">'+
-		                    	'<span class="aco_change">修改</span>|<span class="aco_delete">删除</span>'+
+		                    	'<span class="aco_change" onclick="goUpdate('+obj.data[i].id+')">修改</span>|<span class="aco_delete" onclick="deleteById('+obj.data[i].id+')">删除</span>'+
 		                    '</span>'+
-		                    '<span class="swmr swmr_normal"></span>'+
+		                    '<span class="swmr swmr_normal" onclick="changeDefault(this)" id="'+obj.data[i].id+'"></span>'+
 		                '</div>';
 		                $(".address_information_manage").append(str1);
-
 					}else{//非默认地址
 						var str2=
 		                '<div class="aim_content_two">'+
@@ -204,38 +216,61 @@
 		                    '<span class="dzxq dzxq_normal">'+obj.data[i].recvDistrict+obj.data[i].recvAddress+'</span>'+
 		                    '<span class="lxdh lxdh_normal">'+obj.data[i].recvPhone+'</span>'+
 		                    '<span class="operation operation_normal">'+
-		                    	'<span class="aco_change">修改</span>|<span class="aco_delete">删除</span>'+
+		                    	'<span class="aco_change" onclick="goUpdate('+obj.data[i].id+')">修改</span>|<span class="aco_delete" onclick="deleteById('+obj.data[i].id+')">删除</span>'+
 		                    '</span>'+
-		                    '<span class="swmr swmr_normal">设为默认</span>'+
+		                    '<span class="swmr swmr_normal" onclick="changeDefault(this)" id="'+obj.data[i].id+'">设为默认</span>'+
 	                	'</div>';
 						 $(".address_information_manage").append(str2);
 					}
 				}
 				
-
-				
 			}
 		})
-	})
+	}
 
+	//显示收貨地址
+	function goUpdate(id){
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/address/getAddressById.do",
+			"type":"GET",
+			"data":"id="+id,
+			"dataType":"json",
+			"success":function(obj){
+				//给表单隐藏表单域值
+				$("#id").val(obj.data.id);
+				
+				$("#receiverName").val(obj.data.recvName);
+				$("#receiverAddress").val(obj.data.recvAddress);
+				$("#receiverMobile").val(obj.data.recvPhone);
+				$("#recerverZip").val(obj.data.recvZip);
+				$("#addressName").val(obj.data.recvTag);
+				$("#receiverPhone").val(obj.data.recvTel);
+				getProvince(obj.data.recvProvince,obj.data.recvCity,obj.data.recvArea);
+				$(".save_recipient").html("修改");
+			}
+		});
+	}
+	
 	//点击设置默认地址按键
-	$(".swmr swmr_normal").click(function(){
-		alert($(this).attr("id"));
+	//$(".swmr swmr_normal").click(function(){
+	function changeDefault(obj){
 		$.ajax({
 			"url":"${pageContext.request.contextPath}/address/setDefault.do",
-			"data":"id="+$(this).attr("id"),
+			"data":"id="+$(obj).attr("id"),
 			"type":"GET",
 			"dataType":"json",
 			"success":function(obj){
-				
+				//alert(obj.state+obj.message);
+				window.location.href="../address/showAddress.do";
 			}			
 		});		
-		setDefault(this);
-	});
+		//setDefault(this);
+	};
 
+	
 
 	//显示区域
-	function getArea(cityCode){
+	function getArea(cityCode,areaCode){	
 		$.ajax({
 			"url":"${pageContext.request.contextPath}/dict/showArea.do",
 			"data":"cityCode="+cityCode,
@@ -247,12 +282,16 @@
 				for(var i=0;i<areaNames.length;i++){
 					$("#receiverDistrict").append("<option value='"+areaNames[i].areaCode+"'>"+areaNames[i].areaName+"</option>");
 				}
+				//修改地址时显示区域
+				if(areaCode!=-1){
+					$("#receiverDistrict").val(areaCode);
+				}
 			}
 		});
 	}
 
 	//显示城市信息
-	function getCity(provinceCode){
+	function getCity(provinceCode,cityCode,areaCode){
 		$.ajax({
 			"url":"${pageContext.request.contextPath}/dict/showCity.do",
 			"data":"provinceCode="+provinceCode,
@@ -264,11 +303,16 @@
 				for(var i=0;i<cityNames.length;i++){
 					$("#receiverCity").append("<option value='"+cityNames[i].cityCode+"'>"+cityNames[i].cityName+"</option>");
 				}
+				//修改地址时显示城市
+				if(cityCode!=-1){
+					$("#receiverCity").val(cityCode);
+				}
 			}
 		});
+		getArea(cityCode,areaCode);
 	}
 	//显示省列表信息
-	$(function(){		
+	function getProvince(provinceCode,cityCode,areaCode){
 		$.ajax({
 			"url":"${pageContext.request.contextPath}/dict/showProvince.do",
 			"type":"GET",
@@ -278,9 +322,14 @@
 				for(var i=0;i<provinceNames.length;i++){
 					$("#receiverState").append("<option value='"+provinceNames[i].provinceCode+"'>"+provinceNames[i].provinceName+"</option>");
 				}
+				//当省份有参数传递时，直接显示省份信息
+				if(provinceCode!=-1){
+					$("#receiverState").val(provinceCode);
+				}
 			}
 		});
-	});
+		getCity(provinceCode,cityCode,areaCode);
+	}
 
 
 
@@ -291,6 +340,9 @@
 	
 	//左边栏
 	$(function(){
+		getAllAddress()
+		getProvince(-1,-1,-1);
+	
 	    $("#leftsidebar_box dd").hide();//所有的dd隐藏
 	    $("#leftsidebar_box .address dd").show();//让帐号管理显示
 	  //列表标题后面的图片显示向右

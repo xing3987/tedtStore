@@ -32,27 +32,53 @@ public class AddressService implements IAddressService{
 			address.setDefaultAddress(0);
 		}else{
 			address.setDefaultAddress(1);
-		}
-		
+		}		
 		addressMapper.insert(address);
 	}
 
 	//查询收货地址
 	public List<Address> getAddress(Integer uid) {
-		
 		return addressMapper.selectByUid(uid);
 	}
 
 	//设置默认地址
 	public void setDefault(Integer uid, Integer id) {
 		int n1=addressMapper.setCancel(uid);
-		if(n1>0){
+		if(n1<0){
 			throw new RuntimeException("取消默认地址失败");
 		}
 		int n2=addressMapper.setDefault(id);
-		if(n2>0){
+		if(n2<0){
 			throw new RuntimeException("设置默认地址失败");
 		}
 	}
 
+	//通过id得到地址
+	public Address getAddressById(Integer id) {
+		Address address=addressMapper.selectAddressById(id);
+		return address;
+	}
+
+	//修改更新地址
+	public void updateAddressById(Address address) {
+		//通过地址的省市区编码，得到具体的省市区名字，然后组成字符串并插入到address中
+		String provinceName=dictMapper.selectProvinceNameByCode(address.getRecvProvince());
+		String cityName=dictMapper.selectCityNameByCode(address.getRecvCity());
+		String areaName=dictMapper.selectAreaNameByCode(address.getRecvArea());
+		String District=provinceName+cityName+areaName;
+		address.setRecvDistrict(District);
+		addressMapper.updateById(address);
+	}
+	
+	//通过id删除地址
+	public void deletById(Integer id) {
+		addressMapper.deleteById(id);	
+	}
 }
+
+
+
+
+
+
+

@@ -21,7 +21,7 @@ ssm-学子商城
 		resources中添加属性文件	db.properties	spring-mvc.xml
 		在resources中创建文件夹：mappers用于管理映射文件	
 	5.配置web.xml添加dispatcherServlet, filter编码
-	
+		
 ***用户管理****
 	1.表设计
 		id   		int 				auto_increment primary key;
@@ -384,7 +384,91 @@ ssm-学子商城
 			3.在控制层定义方法	
 				public ResponseResult<Void> getDefault(HttpSession session,Integer id){}
 			4.定义页面的ajax函数	
-				
+		4.修改收货地址
+			1.回显收货地址
+				a.持久层				
+					在AddressMapper接口中定义方法：
+						Address selectAddressById(Integer id)
+					在AddressMapper.xml中，定义select节点
+				b.业务层
+					在IAddressService接口中定义方法
+						Address getAddressById(Integer id);
+					在AddressService中实现该方法
+				c.控制器层
+					public ResponseResult<Address> getAddressById(Integer id) {}
+				d.页面按钮添加事件，用ajax访问控制器
+					修改三级联动的代码，增加参数传递
+					最后在表单中添加一个隐藏的input里面放入id值
+			2.点击修改
+				a.持久层
+					在AddressMapper接口中定义方法
+						void updateById(Address address);
+					在AddressMapper.xml中，定义update节点
+				b.测试sql语句的正确性
+				c.服务层
+					在IAddressService实现方法
+						public void updateAddressById(Address address)
+					在AddressService中实现该方法
+						注意recvDistrict地址的拼接
+				d.控制器
+					/address/updateAddress.do
+					请求参数：form数据
+					请求方式：POST
+					响应方式:ResponseBody成功信息
+						public ResponseResult<Void> updateAddress(
+						Integer id,
+						@RequestParam("receiverName") String recvName,
+						@RequestParan("receiverState) String recvProvince,
+						@RequestParam("receiverCity") String recvCity,
+						@RequestParam("receiverDistrict") String recvArea,
+						@RequestParam("receiverAddress") String recvAddress,
+						@RequestParam("receiverMobile") String recvPhone,
+						@RequestParam("receiverPhone") String recvTel,
+						@RequestParam("receiverZip") String recvZip,
+						@RequestParam("addressName") String recvTag){
+							1.创建rr对象
+							2.调用业务层方法
+							3.设置rr的状态码和信息
+							4.return rr;
+						}	
+				e.编写页面jsp的ajax代码				
+					修改成功后，按钮要改回‘保存联系人信息’
+		5.点击删除按钮
+			a.在AddressMapper接口定义方法
+				void deleteById(Integer id);
+			b.在AddressMapper.xml中添加删除语句
+			c.编写控制层，服务层;
+						
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+						
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+							
 				
 				
 					
