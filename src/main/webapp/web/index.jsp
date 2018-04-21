@@ -106,62 +106,27 @@
                 </span>
             </div>
             <div class="item_cat_all">
-                <p>电脑整机</p>
+            <c:forEach items="${computerList}" varStatus="statu">
+                <p style="margin-top:10px;">${computerList[statu.index].name}</p>
                 <ul>
-                    <li><a href="#">笔记本</a></li>
-                    <li><a href="#">游戏机</a></li>
-                    <li><a href="#">台式机</a></li>
-                    <li><a href="#">一体机</a></li>
-                    <li><a href="#">服务器</a></li>
-                    <li><a href="#">联想</a></li>
+                	<c:forEach items="${category161List[statu.index]}" var="computer">
+                    	<li><a href="#">${computer.name}</a></li>
+					</c:forEach>
                 </ul>
-                <p>电脑配件</p>
-                <ul>
-                    <li><a href="#">CPU</a></li>
-                    <li><a href="#">SSD硬盘</a></li>
-                    <li><a href="#">显示器</a></li>
-                    <li><a href="#">显卡</a></li>
-                    <li><a href="#">组装电脑</a></li>
-                    <li><a href="#">机箱</a></li>
-                </ul>
-                <p>外设/游戏</p>
-                <ul>
-                    <li><a href="#">键盘</a></li>
-                    <li><a href="#">鼠标</a></li>
-                    <li><a href="#">U盘</a></li>
-                    <li><a href="#">移动硬盘</a></li>
-                    <li><a href="#">游戏设备</a></li>
-                    <li><a href="#">智能单车</a></li>
-                </ul>
+            </c:forEach>
             </div>
         </div>
-        <div class="item_msg lf">
-            <img src="${pageContext.request.contextPath}/images/itemCat/study_computer_img3.png" alt=""/>
-
-            <p class="bottom_ys2">戴尔(DELL)XPS13-9360-R1609 13.3英寸微边框笔记本电脑</p>
-
-            <p class="bottom_ys3">￥4600.00</p>
-
-            <p class="bottom_ys4 color_2"><a href="product_details.html">查看详情</a></p>
-        </div>
-        <div class="item_msg lf">
-            <img src="${pageContext.request.contextPath}/images/itemCat/study_computer_img4.png" alt=""/>
-
-            <p class="bottom_ys2">14.8mm超轻薄笔记本电脑  航海王版 13.3英寸微边框笔记本电脑</p>
-
-            <p class="bottom_ys3">￥5600.00</p>
-
-            <p class="bottom_ys4 color_2"><a href="product_details.html">查看详情</a></p>
-        </div>
-        <div class="item_msg lf">
-            <img src="${pageContext.request.contextPath}/images/itemCat/study_computer_img5.png" alt=""/>
-
-            <p class="bottom_ys2">联想(Lenovo) YOGA900 多彩版 13.3英寸微边框笔记本电脑</p>
-
-            <p class="bottom_ys3">￥6600.00</p>
-
-            <p class="bottom_ys4 color_2"><a href="product_details.html">查看详情</a></p>
-        </div>
+        <c:forEach items="${goodses}" var="goods">
+	        <div class="item_msg lf">
+	            <img src="${pageContext.request.contextPath}${goods.image}" style="height:140px;width:190px" alt="" />
+	
+	            <p class="bottom_ys2">${goods.title}</p>
+	
+	            <p class="bottom_ys3">￥${goods.price}</p>
+	
+	            <p class="bottom_ys4 color_2"><a href="product_details.html">查看详情</a></p>
+	        </div>
+        </c:forEach>
     </div>
 </div>
 <!--楼梯2f-->
@@ -207,63 +172,38 @@
                 </span>
             </div>
             <div class="item_cat_all item_color">
-                <p>办公设备</p>
+                <p>${computerList2[0].name}</p>
                 <ul>
-                    <li><a href="#">投影机</a></li>
-                    <li><a href="#">打印机</a></li>
-                    <li><a href="#">点钞机</a></li>
-                    <li><a href="#">碎纸机</a></li>
-                    <li><a href="#">考勤机</a></li>
-                    <li><a href="#">保险柜</a></li>
+                	<c:forEach items="${category161List2[0]}" var="computer">
+                   		 <li><a href="#">${computer.name}</a></li>
+                    </c:forEach>                    
                 </ul>
-                <p>文具耗材</p>
+                <p style="margin-top:2px">${computerList2[1].name}</p>
                 <ul>
-                    <li><a href="#">学生文具</a></li>
-                    <li><a href="#">办公文具</a></li>
-                    <li><a href="#">纸类</a></li>
-                    <li><a href="#">打印耗材</a></li>
-                    <li><a href="#">服务器</a></li>
-                    <li><a href="#">联想</a></li>
+                	<c:forEach items="${category161List2[1]}" var="computer">
+                   		 <li><a href="#">${computer.name}</a></li>
+                    </c:forEach> 
+                     <br>
                 </ul>
-                <p>电脑整机</p>
+                <p>${computerList2[2].name}</p>
                 <ul>
-                    <li><a href="#">笔记本</a></li>
-                    <li><a href="#">游戏机</a></li>
-                    <li><a href="#">台式机</a></li>
-                    <li><a href="#">一体机</a></li>
-                    <li><a href="#">服务器</a></li>
-                    <li><a href="#">联想</a></li>
+                	<c:forEach items="${category161List2[2]}" var="computer">
+                   		 <li><a href="#">${computer.name}</a></li>
+                    </c:forEach> 
                 </ul>
             </div>
         </div>
-        <div class="item_msg lf">
-            <img src="${pageContext.request.contextPath}/images/itemCat/study_stationery_img3.png" alt=""/>
-
-            <p class="bottom_ys2">得力（deli）1548A商务办公桌面计算器 太阳能双电源</p>
-
-            <p class="bottom_ys3 price_ys3">￥58.00</p>
-
-            <p class="bottom_ys4 color_1"><a href="product_details.html">查看详情</a></p>
-        </div>
-        <div class="item_msg lf">
-            <img src="${pageContext.request.contextPath}/images/itemCat/study_stationery_img4.png" alt=""/>
-
-            <p class="bottom_ys2">施耐德（Schneider） K15 经典款圆珠笔 </p>
-
-            <p class="bottom_ys3 price_ys3">￥12.00</p>
-
-            <p class="bottom_ys4 color_1"><a href="product_details.html">查看详情</a></p>
-        </div>
-
-        <div class="item_msg lf">
-            <a href="product_details.html">
-            <img src="${pageContext.request.contextPath}/images/itemCat/study_stationery_img5.png" alt=""/>
-            <p class="bottom_ys2">齐心皮面日程本子2017.1-2018.6计划记事本效率手册</p>
-            <p class="bottom_ys3 price_ys3">￥23.00</p>
-            <p class="bottom_ys4 color_1"><a href="product_details.html" id="iii">查看详情</a></p>
-            </a>
-        </div>
-
+        <c:forEach items="${goodses2}" var="goods2">
+	        <div class="item_msg lf">
+	            <img src="${pageContext.request.contextPath}${goods2.image}" style="height:140px;width:190px" alt=""/>
+	
+	            <p class="bottom_ys2">${goods2.title}</p>
+	
+	            <p class="bottom_ys3 price_ys3">￥${goods2.price}</p>
+	
+	            <p class="bottom_ys4 color_1"><a href="product_details.html">查看详情</a></p>
+	        </div>
+        </c:forEach>
     </div>
 </div>
 <!-- 品质保障，私人定制等-->

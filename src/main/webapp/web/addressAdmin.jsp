@@ -17,7 +17,7 @@
 <!-- nav主导航-->
 <nav id="nav">
     <ul>
-        <li><a href="index.html" class="acti">首页</a></li>
+        <li><a href="../main/showIndex.do" class="acti">首页</a></li>
         <li><a href="index.html#computer" >电脑办公</a></li>
         <li><a href="index.html#stationery" >办公文具</a></li>
     </ul>

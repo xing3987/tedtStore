@@ -439,11 +439,60 @@ ssm-学子商城
 			b.在AddressMapper.xml中添加删除语句
 			c.编写控制层，服务层;
 						
-					
-					
-					
-					
-					
+*********商品管理*********
+	1.showIndex.do主界面显示商品分类信息
+		1.持久层：
+			a.首先新建GoodsCategory实体类；定义接口GoodsCategoryMapper,在接口中定义方法
+				//分页查询，子类商品，因为参数有多个可以使用两种方法
+					1.封装成一个类，当一个参数传递
+					2.使用@Param注解进行封装传递
+				List<GoodsCategory> selectByParentId(@Param("parentId") Integer parendId,
+						@Param("offset") Integer offset,@Param("count") Integer count);					
+			b.新建GoodsCategoryMapper.xml;配置映射名称，写查询语句。			
+				<select id="selectCategoryByParentId" resultType=" ">
+					select xx from t_goods_category 
+					where parent_id=#{parentId}
+					and status=1	//上架状态
+					<if test="offset!=null">//如果有分页查询参数传递时
+						limit #{offset},#{count}
+					</if>
+				</select>	
+			c.测试持久层		
+		2.业务层
+			a.新建IGoodsCategoryService接口，在接口中定义方法
+				List<GoodsCategory> getCategoryByParentId(Integer parentId,
+					Integer offset,Integer count);
+			b.新建接口实现类GoodsCategoryServic,实现接口的方法
+		3.控制层
+			使用MainController类中的showIndex(ModelMap map)方法
+			a.调用getCategoryByParentId(161,0,3),返回二级分类集合computerList
+			b.遍历二级分类集合，得到二级分类的对象，从对象中得到id,
+				调用getCategoryByParentId(id,null,null),返回三级分类集合category161List
+			c.方法添加ModelMap(spring-mvc用来传递request)参数
+				把两个集合分别设置到map中
+		4.页面
+			--index.jsp在电脑.办公/1F中把得到的数据用el表达式,forEach标签放入两个List中的数据
+
+	2.热门商品的显示
+		1.持久层
+			a.新建Goods实体类对应数据库表：t_goods
+			b.新建GoodsMapper接口，在接口中定义方法(分页查询显示3个热点商品)
+				List<Goods> select(@Param("categoryId") Integer categoryId,
+					@Param("offset") Integer offset,@Param("count") Integer count)
+			c.新建GoodsMapper.xml，添加查询方法
+				select * from t_goods where category_id=#{categoryId}
+									  add num>0 and status=1
+									  order by priority desc 
+									  limit #{offset},#{count}
+		2.业务层IGoodsService接口，GoodsService实现类
+			写对应的方法
+		3.控制层
+			参照商品分类信息控制层(写在showIndex(Model map)中)	
+		4.页面
+			注意forEach标签的使用和多重嵌套varstatu--index的使用
+
+	3.商品展示页面search.jsp
+		1.新建GoodsController类，定义showSearch方法，完成显示页面
 					
 					
 					

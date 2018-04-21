@@ -59,7 +59,21 @@ $(".save_recipient").click(function(){
 				"type":"POST",
 				"dataType":"json",
 				"success":function(obj){
-					window.location.href="../address/showAddress.do";
+					getAllAddress();
+					$("#receiverName").val("");
+					$("#receiverState").val("");
+					$("#receiverCity").val("");
+					$("#receiverDistrict").val("");
+					$("#receiverAddress").val("");// 
+					$("#receiverMobile").val("");
+					$("#addressPhone").val("");
+					$("#addressZip").val("");
+					$("#addressName").val("");
+					$("#recerverZip").val("");
+					$("#receiverPhone").val("");
+					//重新初始化省市区列表
+					getProrvince(-1,-1,-1);
+					//window.location.href="../address/showAddress.do";
 				}
 			});
 		}

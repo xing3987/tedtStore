@@ -193,13 +193,13 @@
 }
 /*分类具体内容*/
 .item_cat_all{
-    width: 366px;
+    width: 360px;
     height: 198px;
     /*border:1px solid deeppink;*/
     padding-left: 12px;
 }
 .item_cat_all p{
-    margin-top: 17px;
+    margin-top: 10px;
     margin-bottom:9px;
     color:#62B5EC;
 }
@@ -224,7 +224,7 @@
 	color:#c66a7a;
 }
 .item_color p{
-    color:#E8B0B9;
+    color:#E8B009;
 }
 .left_ys1{
     margin-top: 52px;
