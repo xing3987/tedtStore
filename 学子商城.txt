@@ -490,10 +490,34 @@ ssm-学子商城
 			参照商品分类信息控制层(写在showIndex(Model map)中)	
 		4.页面
 			注意forEach标签的使用和多重嵌套varstatu--index的使用
-
+			
 	3.商品展示页面search.jsp
 		1.新建GoodsController类，定义showSearch方法，完成显示页面
-					
+			给index.jsp增加三级超连接: ../goods/showSearch.do?categoryId=${computer.id}
+			调整	showSearch方法增加参数Integer categoryId,ModelMap map
+		2.持久层（同热门商品展示（复用））
+		3.业务层	（同热门商品展示（复用））
+		4.调整页面search.jsp		
+		5.添加分页查询
+			a.	<div style="height:20px" align="right">
+					共28个商品，共4页|1  2  3  4  
+				</div>
+			b.在GoodsMapper接口中定义方法
+				Integer selectCount(Integer categoryId);
+			c.在GoodsMapper.xml文件中，定义select节点，完成查询的功能
+				<select id="selectCount" resultType="java.lang.Integer">
+					select count(*) from t_goods where categoryId=#{categoryId}
+				</select>
+			d.测试持久层，业务层
+			e.控制层添加计数和页面的数量
+				showSearch方法中
+			f.调整页面,建立点击的超连接
+				<div style="height:25px;font-size:25px;margin-bottom: 30px" align="center">
+						共${count}个商品，共${pages}页|
+					<c:forEach var="i" begin="1" end="${pages}">
+						<a href="../goods/showSearch.do?categoryId=${categoryId}&page=${i}">${i}</a>
+					</c:forEach>
+				</div>
 					
 					
 					

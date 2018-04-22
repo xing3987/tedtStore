@@ -2,10 +2,13 @@
 .big a{
     color:#808080;
 }
+
+
 .big{
-	min-height:950px;
+	min-height:900px;
 	
-}
+} 
+
 #section{
     position: relative;
     z-index: 100;

@@ -11,24 +11,7 @@
 <link rel="stylesheet" href="../css/footer.css" />
 </head>
 <!-- 页面顶部-->
-<header id="top" class="fixed_nav">
-    <div id="logo" class="lf">
-        <img class="animated jello" src="../images/header/logo.png" alt="logo"/>
-    </div>
-    <div id="top_input" class="lf">
-        <input id="input" type="text" placeholder="请输入您要搜索的内容"/>
-        <a href="search.html" class="rt"><img id="search" src="../images/header/search.png" alt="搜索"/></a>
-    </div>
-    <div class="rt">
-        <ul class="lf">
-            <li><a href="favorites.html" title="我的收藏"><img class="care" src="../images/header/care.png" alt=""/></a><b>|</b></li>
-            <li><a href="orders.html" title="我的订单"><img class="order" src="../images/header/order.png" alt=""/></a><b>|</b></li>
-            <li><a href="cart.html" title="我的购物车"><img class="shopcar" src="../images/header/shop_car.png" alt=""/></a><b>|</b></li>
-            <li><a href="help.html">帮助</a><b>|</b></li>
-            <li><a href="login.html">登录</a></li>
-        </ul>
-    </div>
-</header>
+<jsp:include page="header.jsp"></jsp:include>
 <!-- nav主导航-->
 <nav id="nav">
     <ul>
@@ -43,180 +26,34 @@
 		<form name="" action="" method="post">
 			<section id="section">
 				<p class="header">全部结果>笔记本</p>
-				<div id="wrap">
-					<div class="lf box" id="d1">
-						<div class="info">
-						<div class="img pic">
-							<img src="../images/search/product_img.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
+				<c:forEach items="${goodsList}" var="goods">
+					<div id="wrap">
+						<div class="lf box" id="d1">
+							<div class="info">
+							<div class="img pic">
+								<img src="..${goods.image}" alt="" onclick="toItemInfo(${item.id})" />
+							</div>			
+							<div class="describe">
+								<p style="width:230px;height:42px;overflow:hidden" onclick="toItemInfo(${item.id})">${goods.title}</p>
+								<span class="price"><b>￥</b><span class="priceContent">${goods.price}</span></span>
+								<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
+								<!--<span class="succee" style="display: none"> 
+									<img src="/images/search/product_true.png" alt="" /> 
+									<span>已移入购物车</span>
+								</span>-->
+							</div>
+							</div>
 						</div>
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img1.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img2.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img3.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img4.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img5.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img6.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img1.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img2.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img3.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img4.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
-					<div class="lf" id="d1">
-						<div class="img">
-							<img src="../images/search/product_img5.png" alt="" onclick="toItemInfo(${item.id})" />
-						</div>			
-						<div class="describe">
-							<p onclick="toItemInfo(${item.id})">联想(Lenovo) YOGA900 (YOGA4 PRO)多彩版</p>
-							<span class="price"><b>￥</b><span class="priceContent">4399.00</span></span>
-							<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
-							<!--<span class="succee" style="display: none"> 
-								<img src="/images/search/product_true.png" alt="" /> 
-								<span>已移入购物车</span>
-							</span>-->
-						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</section>
-		</form>
+		</form>	
+	</div>
+	<div style="height:25px;font-size:25px;margin-bottom: 30px" align="center">
+				共${count}个商品，共${pages}页|
+				<c:forEach var="i" begin="1" end="${pages}">
+					<a href="../goods/showSearch.do?categoryId=${categoryId}&page=${i}">${i}</a>
+				</c:forEach>
 	</div>
 	<!-- 尾部-->
 <!-- 页面底部-->

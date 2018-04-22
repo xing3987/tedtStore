@@ -10,4 +10,5 @@ import store.bean.Goods;
 public interface GoodsMapper {
 	public List<Goods> select(@Param("categoryId") Integer categoryId,
 			@Param("offset") Integer offset,@Param("count") Integer count);
+	public Integer selectCount(Integer categoryId);//通过分类Id查询商品的数量
 }

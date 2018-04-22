@@ -110,7 +110,7 @@
                 <p style="margin-top:10px;">${computerList[statu.index].name}</p>
                 <ul>
                 	<c:forEach items="${category161List[statu.index]}" var="computer">
-                    	<li><a href="#">${computer.name}</a></li>
+                    	<li><a href="../goods/showSearch.do?categoryId=${computer.id}">${computer.name}</a></li>
 					</c:forEach>
                 </ul>
             </c:forEach>
@@ -175,20 +175,20 @@
                 <p>${computerList2[0].name}</p>
                 <ul>
                 	<c:forEach items="${category161List2[0]}" var="computer">
-                   		 <li><a href="#">${computer.name}</a></li>
+                   		 <li><a href="../goods/showSearch.do?categoryId=${computer.id}">${computer.name}</a></li>
                     </c:forEach>                    
                 </ul>
                 <p style="margin-top:2px">${computerList2[1].name}</p>
                 <ul>
                 	<c:forEach items="${category161List2[1]}" var="computer">
-                   		 <li><a href="#">${computer.name}</a></li>
+                   		 <li><a href="../goods/showSearch.do?categoryId=${computer.id}">${computer.name}</a></li>
                     </c:forEach> 
                      <br>
                 </ul>
                 <p>${computerList2[2].name}</p>
                 <ul>
                 	<c:forEach items="${category161List2[2]}" var="computer">
-                   		 <li><a href="#">${computer.name}</a></li>
+                   		 <li><a href="../goods/showSearch.do?categoryId=${computer.id}">${computer.name}</a></li>
                     </c:forEach> 
                 </ul>
             </div>

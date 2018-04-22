@@ -11,12 +11,15 @@ import store.bean.GoodsCategory;
 import store.mapper.GoodsCategoryMapper;
 import store.mapper.GoodsMapper;
 import store.service.GoodsCategoryService;
+import store.service.GoodsService;
+import store.service.IGoodsService;
 
 public class TestGoods {
 	
 	ApplicationContext ac=new ClassPathXmlApplicationContext(
 			"spring-dao.xml","spring-mvc.xml","spring-service.xml");
 	GoodsMapper goodsMapper=ac.getBean("goodsMapper",GoodsMapper.class);
+	IGoodsService goodsService=ac.getBean("goodsService",GoodsService.class);
 /*****************持久层**************************/	
 	@Test
 	//测试持久层
@@ -24,13 +27,26 @@ public class TestGoods {
 		List<Goods> goods=goodsMapper.select(163, 0, 3);
 		System.out.println(goods);
 	}
+	@Test
+	//测试持久层,通过categoryId查询商品数量
+	public void MapperSelectCount(){
+		Integer count=goodsMapper.selectCount(163);
+		System.out.println(count);
+	}
 	
 	
 /*******************业务层*************************/	
 	@Test
 	//测试业务层
 	public void ServiceSelect(){
-		List<Goods> goods=goodsMapper.select(163, 0, 3);
+		List<Goods> goods=goodsService.getGoodsByCategoryId(163, 0, 3);
 		System.out.println(goods);
+	}
+	
+	@Test
+	//测试业务层,通过categoryId查询商品数量
+	public void ServiceSelectCount(){
+		Integer count=goodsService.getCount(163);
+		System.out.println(count);
 	}
 }

@@ -19,4 +19,9 @@ public class GoodsService implements IGoodsService{
 		return goodses;
 	}
 
+	public Integer getCount(Integer categoryId) {
+		Integer count=goodsMapper.selectCount(categoryId);
+		return count;
+	}
+
 }
