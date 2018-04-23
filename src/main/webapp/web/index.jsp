@@ -17,13 +17,7 @@
 <!-- 页面顶部-->
 	<jsp:include page="header.jsp"></jsp:include>
 <!-- nav主导航-->
-<nav id="nav">
-    <ul>
-        <li><a href="index.html" class="acti">首页</a></li>
-        <li><a href="index.html#computer" >电脑办公</a></li>
-        <li><a href="index.html#stationery" >办公文具</a></li>
-    </ul>
-</nav>
+<jsp:include page="topNav.jsp"></jsp:include>
 <!-- banner部分-->
 <div class="ck-slide">
     <ul class="ck-slide-wrapper">
@@ -124,7 +118,7 @@
 	
 	            <p class="bottom_ys3">￥${goods.price}</p>
 	
-	            <p class="bottom_ys4 color_2"><a href="product_details.html">查看详情</a></p>
+	            <p class="bottom_ys4 color_2"><a href="${pageContext.request.contextPath}/goods/showProduct.do?id=${goods.id}&categoryId=${goods.categoryId}">查看详情</a></p>
 	        </div>
         </c:forEach>
     </div>
@@ -201,7 +195,7 @@
 	
 	            <p class="bottom_ys3 price_ys3">￥${goods2.price}</p>
 	
-	            <p class="bottom_ys4 color_1"><a href="product_details.html">查看详情</a></p>
+	            <p class="bottom_ys4 color_1"><a href="${pageContext.request.contextPath}/goods/showProduct.do?id=${goods2.id}&categoryId=${goods2.categoryId}">查看详情</a></p>
 	        </div>
         </c:forEach>
     </div>

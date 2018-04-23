@@ -518,16 +518,126 @@ ssm-学子商城
 						<a href="../goods/showSearch.do?categoryId=${categoryId}&page=${i}">${i}</a>
 					</c:forEach>
 				</div>
-					
-					
-					
-					
-					
-					
-					
-					
+	4.商品详细信息页面product_details.jsp
+		1.持久层(虽然id是String类型,但由于内容都是数值，也可以用Integer类型替代)
+			在GoodsMapper接口中定义方法
+				Goods selectByGoodsId(Integer id);
+			在GoodsMapper.xml编写select语句
+				<select id="selectByGoodsId" resultType="...Goods"
+					select * from t_goods where id=#{id}
+				</select>
+		2.业务层
+			Goods getGoodsById(Integer id);
+		3.在GoodsService类中实现方法，返回商品
+		4.控制器层
+			/goods/goodsProduct.do
+			请求参数：goodsId，categoryId
+			请求方式：get
+			响应方式：转发
+			public String goodsProduct(Integer goodsId,Integer categoryId)	
+		5.在search.jsp中调整页面连接
+			"../goods/showProduct.do?id="+id+"&categoryId="+categoryId
+		     在index.jsp中调整页面连接	
+		     <a href="${pageContext.request.contextPath}/goods/showProduct.do?
+		     	id=${goods2.id}&categoryId=${goods2.categoryId}">查看详情</a>
+		      实现热门商品显示(4个)
+		            在showProduct中添加查询热门商品并把结果集合保存到map中
+		             调整product_details.jsp中调整页面
+		             
+		             
+*******购物车*****
+*A*添加购物车
+	1.设计表  t_cart
+		id
+		uid
+		goods_id
+		count 
+	2.持久层
+		新建CartMapper接口，在接口中定义方法
+			void insertCart(Cart cart)	
+		新建CartMapper.xml
+			<insert id="insertCart" parameterType="">
+				insert into t_cart values(null,
+					#{uid},#{goodId},#{count},#{createdUser},#{createdTime},
+					#{modifiedUser},#{modifiedTime})
+			</insert>
+	3.业务层
+		建立ICartService接口和对应的实现类
+		添加插入的方法
+	4.控制器层
+		/cart/addCart.do
+		请求参数：uid(session),goodsId,count
+		请求方式：get
+		响应方式：ResponseBody
+		方法：
+			public ResponseResult<Void> addCart(HttpSession session,
+										Integer goodsId,Integer count) 
+			1.创建rr对象
+			2.调用业务层：addCart(cart)
+			3.return rr;
+	5.在product_details.jsp页面添加点击加入购物车的ajax异步提交函数
+		$("#add_cart").click(function (e) {
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/cart/addCart.do",
+			"data":"goodsId="+$("#id").val()+"&count="+$("#buy-num").val(),
+			"dataType":"json",
+			"type":"GET",
+			"success":function(obj){
+				//alert(obj.state+","+obj.message);
+			},
+			"error":function(){//异步提交被拦截时，重定向时不会走success，会返回错误状态码
+				location="${pageContext.request.contextPath}/cart/addCart.do";
+			}
+		});
+			
+*B*显示购物车
+		1.值对象，store.vo
+			public CartVo{
+				private Integer id;
+				private Integer uid;
+				private String goodsId;
+				private String image;
+				private String title;
+				private Integer price;
+				private Integer count;
+			}					
+		2.在CartMapper中定义方法
+			List<CartVo> selectCart(Integer uid) 			
+		3.在CartMapper.xml中，定义select方法，完成2个表的查询
+			<select id="selectCart" resultType="..vo">
+				select t_cart.id as id,t_cart.uid as uid,
+					   t_cart.goods_id as goodsId,
+					   image,title,price,count 
+				from t_cart,t_goods
+				where t_cart.goods_id=t_goods.id and t_cart.uid=#{uid}
+			</select>				
 						
-					
+		4.控制层
+			/cart/showCart.do
+			请求参数：session(uid)
+			请求方式：get
+			响应方式：转发
+			
+			public String showCart(HttpSession session,ModelMap map)				
+				1.调用业务层方法，返回集合list
+				2.把list设置到map中
+				3.return "cart";
+		5.调整页面cart.jsp
+
+	a.单行删除
+		1.持久层
+			在CartMapper接口中定义方法
+				void deleteById(Integer id);
+			在CartMapper.xml中，定义delete节点，完成删除功能
+				<delete id="deleteById">
+					delete from t_cart where id=#{id}
+				</delete>				
+		2.给业务层的接口和实现类添加方法并测试
+		3.控制层
+			/cart/deleteById.do
+			请求参数：id
+			请求方式：get
+			响应方式：重定向
 					
 					
 					

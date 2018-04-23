@@ -24,4 +24,9 @@ public class GoodsService implements IGoodsService{
 		return count;
 	}
 
+	public Goods getGoodsById(Integer id) {
+		Goods goods=goodsMapper.selectGoodsById(id);
+		return goods;
+	}
+
 }

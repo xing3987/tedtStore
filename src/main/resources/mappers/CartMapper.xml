@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="store.mapper.CartMapper">
+
+	<delete id="deleteById">
+		delete from t_cart where id=#{id}
+	</delete>
+
+	<insert id="insertCart" parameterType="store.bean.Cart">
+		insert into t_cart values(
+			null,#{uid},#{goodsId},#{count},#{createdUser},
+			#{createdTime},#{modifiedUser},#{modifiedTime}
+		)
+	</insert>
+	
+	<select id="getCartVoByUid" resultType="store.bean.CartVo">
+		select t_cart.id as id,t_cart.uid as uid,
+			   t_cart.goods_id as goodsId,
+			   image,title,price,count 
+		from t_cart,t_goods
+		where t_cart.goods_id=t_goods.id and t_cart.uid=#{uid}		
+	</select>
+
+	
+	<resultMap type="store.bean.Cart" id="CartMap">
+		<result property="goodsId" column="goods_id"/>
+		<result property="createdTime" column="created_time"/>
+		<result property="modifiedTime" column="modified_time"/>
+		<result property="createdUser" column="created_user"/>
+		<result property="modifiedUser" column="modified_user"/>		
+	</resultMap>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

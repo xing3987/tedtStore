@@ -14,6 +14,9 @@
 	<select id="selectCount" resultType="java.lang.Integer">
 		select count(*) from t_goods where category_id=#{categoryId}
 	</select>
+	<select id="selectGoodsById" resultMap="GoodsMap">
+		select * from t_goods where id=#{id}
+	</select>
 	
 	<resultMap type="store.bean.Goods" id="GoodsMap">
 		<result property="categoryId" column="category_id"/>

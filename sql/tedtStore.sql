@@ -16,6 +16,7 @@ create table t_user(
 
 desc t_user;
 select * from t_user;
+select distinct password from t_user;
 truncate table t_user;
 insert into t_user values(null,null,"111111","aaaaaa@aa.com","11111111111",null,1,"111111",null,null,null);
 update t_user set gender=1 where username='aaaaaaaaa';
@@ -59,4 +60,16 @@ select * from t_goods_category;
 select * from t_goods_category where parent_id=161;
 select * from t_goods_category where parent_id=0;
 
+create table t_cart(
+	id int auto_increment primary key,
+	uid int not null,
+	goods_id varchar(200),
+	count int,
+	created_user varchar(50),
+	created_time date,
+	modified_user varchar(50),
+	modified_time date
+)engine InnoDB default charset=utf8
 
+select * from t_cart;
+desc t_cart;

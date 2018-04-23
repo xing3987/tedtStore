@@ -13,14 +13,7 @@
 <!-- 页面顶部-->
 <jsp:include page="header.jsp"></jsp:include>
 <!-- nav主导航-->
-<nav id="nav">
-    <ul>
-        <li><a href="index.html" class="acti">首页</a></li>
-        <li><a href="index.html#computer" >电脑办公</a></li>
-        <li><a href="index.html#stationery" >办公文具</a></li>
-    </ul>
-</nav>
-
+<jsp:include page="topNav.jsp"></jsp:include>
 <body>
 	<div class="big">
 		<form name="" action="" method="post">
@@ -31,10 +24,10 @@
 						<div class="lf box" id="d1">
 							<div class="info">
 							<div class="img pic">
-								<img src="..${goods.image}" alt="" onclick="toItemInfo(${item.id})" />
+								<img src="..${goods.image}" alt="" onclick="toItemInfo(${goods.id},${goods.categoryId})" />
 							</div>			
 							<div class="describe">
-								<p style="width:230px;height:42px;overflow:hidden" onclick="toItemInfo(${item.id})">${goods.title}</p>
+								<p style="width:230px;height:42px;overflow:hidden" onclick="toItemInfo(${goods.id},${goods.categoryId})">${goods.title}</p>
 								<span class="price"><b>￥</b><span class="priceContent">${goods.price}</span></span>
 								<span class="addCart"><img id="collect" src="../images/search/care.png" alt="" /><a href="javascript:void(0);" class="add_cart">加入购物车</a></span>
 								<!--<span class="succee" style="display: none"> 
@@ -144,16 +137,16 @@
 	    }
 	});
 </script>-->
-<!--<script type="text/javascript">
+<script type="text/javascript">
     /* 商品详情页  */
-	function toItemInfo(id) {
+	function toItemInfo(id,categoryId) {
 		if (id) {
-			window.location.href="/toItemInfo/"+id+".html";
+			window.location.href="../goods/showProduct.do?id="+id+"&categoryId="+categoryId;
 		}else {
 			alert("商品id不存在");
 		}
 	} 
-</script>-->
+</script>
 <script type="text/javascript">
 	/**添加到收藏**/
     $("#collect").click(function(e){

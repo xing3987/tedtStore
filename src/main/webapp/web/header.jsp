@@ -15,7 +15,7 @@
         	<li><a href="${pageContext.request.contextPath}/main/showPersonal.do">${user.username}</a></li>
             <li><a href="favorites.html" title="我的收藏"><img class="care" src="${pageContext.request.contextPath}/images/header/care.png" alt=""/></a><b>|</b></li>
             <li><a href="orders.html" title="我的订单"><img class="order" src="${pageContext.request.contextPath}/images/header/order.png" alt=""/></a><b>|</b></li>
-            <li><a href="cart.html" title="我的购物车"><img class="shopcar" src="${pageContext.request.contextPath}/images/header/shop_car.png" alt=""/></a><b>|</b></li>
+            <li><a href="../cart/showCart.do" title="我的购物车"><img class="shopcar" src="${pageContext.request.contextPath}/images/header/shop_car.png" alt=""/></a><b>|</b></li>
             <li><a href="help.html">帮助</a><b>|</b></li>
             <c:choose>
             	<c:when test="${user!=null}">

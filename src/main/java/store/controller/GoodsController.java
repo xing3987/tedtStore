@@ -18,7 +18,7 @@ public class GoodsController extends BaseController{
 	private IGoodsService goodsService;
 	
 	
-	@RequestMapping("showSearch.do")
+	@RequestMapping("/showSearch.do")
 	//通过categoryId得到商品信息，传递给页面
 	public String showSearch(ModelMap map,Integer page,Integer categoryId){
 		//如果从页面跳转，page没有传递值，给它赋值为1
@@ -36,5 +36,17 @@ public class GoodsController extends BaseController{
 		map.addAttribute("pages",pages);
 		map.addAttribute("categoryId",categoryId);
 		return "search";
+	}
+	
+	@RequestMapping("/showProduct.do")
+	public String showProduct(Integer id,Integer categoryId,ModelMap map){
+		//通过id得到商品
+		Goods goods=goodsService.getGoodsById(id);
+		map.addAttribute("goods",goods);
+		
+		//查询热门商品
+		List<Goods> goodsList=goodsService.getGoodsByCategoryId(categoryId, 0, 4);
+		map.addAttribute("goodsList",goodsList);
+		return "product_details";
 	}
 }

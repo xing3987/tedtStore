@@ -9,4 +9,5 @@ public interface IGoodsService {
 					Integer offset,Integer count);
 	
 	public Integer getCount(Integer categoryId);
+	public Goods getGoodsById(Integer id);//通过id查找商品
 }

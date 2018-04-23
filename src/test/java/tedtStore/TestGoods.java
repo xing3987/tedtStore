@@ -34,6 +34,13 @@ public class TestGoods {
 		System.out.println(count);
 	}
 	
+	@Test
+	//测试持久层,通过Id查询商品
+	public void MapperselectGoodsById(){
+		Goods good=goodsMapper.selectGoodsById(10000003);
+		System.out.println(good);
+	}
+	
 	
 /*******************业务层*************************/	
 	@Test
@@ -48,5 +55,12 @@ public class TestGoods {
 	public void ServiceSelectCount(){
 		Integer count=goodsService.getCount(163);
 		System.out.println(count);
+	}
+	
+	@Test
+	//测试业务层,通过Id查询商品
+	public void MappergetGoodsById(){
+		Goods good=goodsService.getGoodsById(10000003);
+		System.out.println(good);
 	}
 }
