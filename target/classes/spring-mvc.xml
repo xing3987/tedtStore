@@ -50,6 +50,7 @@
 				<mvc:mapping path="/main/showPersonInfo.do"/>
 				<mvc:mapping path="/address/**"/>
 				<mvc:mapping path="/cart/**"/>
+				<mvc:mapping path="/order/**"/>
 				<bean class="store.interceptor.LoginInterceptor"/>			
 			</mvc:interceptor>		
 		</mvc:interceptors>

@@ -11,12 +11,15 @@ import store.bean.CartVo;
 import store.mapper.CartMapper;
 import store.service.CartService;
 import store.service.ICartService;
+import store.service.IOrderService;
+import store.service.OrderService;
 
 public class TextCart {
 	ApplicationContext ac=new ClassPathXmlApplicationContext(
 			"spring-dao.xml","spring-mvc.xml","spring-service.xml");
 	CartMapper cartMapper=ac.getBean("cartMapper",CartMapper.class);
 	ICartService cartService=ac.getBean("cartService",CartService.class);
+	IOrderService orderService=ac.getBean("orderService",OrderService.class);
 	
 	/************测试持久层**********************/
 	@Test
@@ -41,6 +44,19 @@ public class TextCart {
 		cartMapper.deleteById(1);
 	}
 	
+	@Test
+	//测试通过id批量删除商品
+	public void MapperDeleteBatchById(){
+		int[] ids={3,17};
+		cartMapper.deleteBatchById(ids);
+	}
+	
+	@Test
+	//测试通过id,count修改商品数量
+	public void MapperupdateCountById(){
+		cartMapper.updateCountById(25, 3);
+	}
+	
 	/***************测试业务层********************/	
 	@Test
 	public void ServiceinsertCart() {//插入购物车数据
@@ -61,6 +77,27 @@ public class TextCart {
 	//测试通过id删除商品
 	public void ServiceDeleteById(){
 		cartService.deleteById(2);
+	}
+	
+	@Test
+	//测试通过id批量删除商品
+	public void ServiceDeleteBatchById(){
+		int[] ids={3,18};
+		cartService.deleteBatchById(ids);
+	}
+	
+	@Test
+	//测试通过id,count修改商品数量
+	public void ServiceUpdateCountById(){
+		cartService.updateCountById(25, 4);
+	}
+	
+	@Test
+	//测试通过uid,ids得到订单商品
+	public void ServiceGetOrderByIds(){
+		Integer[] ids={16,21,23};
+		List<CartVo> cartVos=orderService.getOrderByIds(11, ids);
+		System.out.println(cartVos);
 	}
 	
 }

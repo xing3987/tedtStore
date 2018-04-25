@@ -71,7 +71,7 @@ $(function() {
 				$('.modal').fadeOut();
 			});
 			$('.yes').click(function(){
-				var url ='/delCartItem.html?itemId='+id;
+				var url ='../cart/deleteById.do?id='+id;
 				 window.location.href=url;
 				})
 	});
@@ -93,7 +93,7 @@ $(function() {
 				$('.modal').fadeOut();
 			});
 			$('.yes').click(function(){
-				var url ='/delCartItems.html?&itemIds='+str;
+				var url ='../cart/deleteBatchById.do?ids='+str;
 				 window.location.href=url;
 
 			});
@@ -146,8 +146,8 @@ function adddel(){
 			var num=$(this).prev().val();
 			$.ajax({
 				type: "GET",
-				url: "/changeCartNum.html",
-				data: {itemId:id,num:num},
+				url: "../cart/updateCountById.do",
+				data: {id:id,count:num},
 				success: function(data){
 				}
 			});
@@ -170,8 +170,8 @@ function adddel(){
 			var num=$(this).next().val();
 			$.ajax({
 				type: "GET",
-				url: "/changeCartNum.html",
-				data: {itemId:id,num:num},
+				url: "../cart/updateCountById.do",
+				data: {id:id,count:num},
 				success: function(data){
 
 				}
@@ -188,14 +188,14 @@ $('.foot_cash').click(function(){
 		if($(this).hasClass('true')){
 			var id=$(this).parent().parent().next().children('.pudc_information').attr('id');
 			var num=$(this).parent().parent().siblings('.num').children('input').val();
-			//str.push(id);
+			str.push(id);
 		}
 	});
 	totalPrice=$('.susumOne').html();
 	console.log(totalPrice);
 	console.log(str);
 	if(str.length>0){
-		var url = '/CartToOrder.html?itemIds='+str;
+		var url = "../order/showOrderConfirm.do?ids="+str;
 		 window.location.href = url;
 	}else{
 		$('.modalBalance').fadeIn();

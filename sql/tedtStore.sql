@@ -73,3 +73,37 @@ create table t_cart(
 
 select * from t_cart;
 desc t_cart;
+
+--订单表
+create table t_order(
+	id int auto_increment primary key,
+	tradeTime date,
+	uid int,
+	created_user varchar(50),
+	created_time date,
+	modified_user varchar(50),
+	modified_time date
+)default charset=utf8
+drop table t_order;
+--订单详情表
+create table t_orderItem(
+	id int auto_increment primary key,
+	uid int,
+	goodsId varchar(200),
+	image varchar(100),
+	title varchar(50),
+	price int,
+	count int,
+	paymentStatus int,
+	orderStatus int,
+	orderId int,
+	created_user varchar(50),
+	created_time date,
+	modified_user varchar(50),
+	modified_time date
+)default charset=utf8
+
+
+
+
+

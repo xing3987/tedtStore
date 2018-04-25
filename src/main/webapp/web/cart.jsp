@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     <div class="pudc">
-                        <div class="pudc_information" id="${carVo.id}">
+                        <div class="pudc_information" id="${cartVo.id}">
                             <img src="..${cartVo.image}" width="84px" height="84px" class="lf"/>
                             <input type="hidden" name="" value="">
                         <span class="des lf">
@@ -216,9 +216,9 @@
             $('.none').show();
         }
     })
-    $("#go-buy").click(function(){
-        window.location.href="orderConfirm.html";
-    })
+    //$("#go-buy").click(function(){
+    //    window.location.href="orderConfirm.html";
+   // })
 </script>
 </body>
 </html>

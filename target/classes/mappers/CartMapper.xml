@@ -5,6 +5,19 @@
   
 <mapper namespace="store.mapper.CartMapper">
 
+	<update id="updateCountById">
+		update t_cart
+		set count=#{count}
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteBatchById" parameterType="java.lang.Integer">
+		delete from t_cart where id in
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
 	<delete id="deleteById">
 		delete from t_cart where id=#{id}
 	</delete>

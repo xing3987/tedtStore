@@ -26,6 +26,16 @@ public class CartService implements ICartService{
 	public void deleteById(Integer id) {
 		cartMapper.deleteById(id);		
 	}
+
+	//通过id集合批量删除购物车商品
+	public void deleteBatchById(int[] ids) {
+		cartMapper.deleteBatchById(ids);
+	}
+
+	//通过id，count修改购物车商品数量
+	public void updateCountById(Integer id, Integer count) {
+		cartMapper.updateCountById(id, count);
+	}
 		
 	
 	

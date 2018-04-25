@@ -43,4 +43,29 @@ public class CartController extends BaseController{
 		map.addAttribute("cartVos",cartVos);
 		return "cart";
 	}
+	
+	@RequestMapping("/deleteById.do")
+	//通过id删除购物车数据
+	public String showCart(Integer id){
+		cartService.deleteById(id);
+		return "redirect:../cart/showCart.do";
+	}	
+	
+	@RequestMapping("/deleteBatchById.do")
+	//通过id集合批量删除购物车数据
+	public String showCart(int[] ids){
+		cartService.deleteBatchById(ids);
+		return "redirect:../cart/showCart.do";
+	}
+	
+	@RequestMapping("/updateCountById.do")
+	@ResponseBody
+	//通过id集合批量删除购物车数据
+	public ResponseResult<Void> updateCountById(Integer id,Integer count){	
+		ResponseResult<Void> rr=new ResponseResult<Void>();
+		cartService.updateCountById(id, count);
+		rr.setState(1);
+		rr.setMessage("修改成功");
+		return rr;
+	}
 }

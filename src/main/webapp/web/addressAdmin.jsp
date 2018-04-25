@@ -258,7 +258,6 @@
 				window.location.href="../address/showAddress.do";
 			}			
 		});		
-		//setDefault(this);
 	};
 
 	

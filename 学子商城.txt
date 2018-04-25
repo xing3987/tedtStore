@@ -638,12 +638,132 @@ ssm-学子商城
 			请求参数：id
 			请求方式：get
 			响应方式：重定向
-					
-					
-					
-					
-					
-					
+			
+			@RequestMapping("/deleteById.do")
+			//通过id删除购物车数据
+			public String showCart(Integer id){
+				cartService.deleteById(id);
+				return "redirect:../cart/showCart.do";
+			}
+		4.调整页面cart.jsp和cart.js文件，添加删除的方法
+	
+	b.批量删除
+		1.持久层
+			在CartMapper接口中定义方法
+				void deleteBatchById(int[] ids)
+			在CartMapper.xml中，定义批量删除的语句
+				//动态遍历数组标签，open--左边，separator--分隔，close--右边
+				//collection--数组类型
+				<delete id="deleteBatchById" parameterType="java.lang.Integer">
+					delete from t_cart
+					where id in
+					<foreach collection="array" item="id" open="(" separator="," close=")">
+						#{id}
+					</foreach>
+				</delete>	
+		2.在业务层编写批量删除语句
+		3.控制层加入批量删除方法
+			@RequestMapping("/deleteBatchById.do")
+			//通过id删除购物车数据
+			public String showCart(int[] ids){
+				cartService.deleteById(ids);
+				return "redirect:../cart/showCart.do";
+			}
+		4.调整页面和cart.js文件的代码，实现批量删除功能
+		
+	c.购物车实现+-商品数量
+		1.持久层
+			void updateCountById(@Param("id") Integer id,@Param("count") Integer count);
+			
+			<update id="updateCountById">
+				update t_cart set
+					count=#{count}
+				where id=#{id}
+			</update>
+		2.业务层，调用持久层方法
+		3.控制层
+			/cart/updateCountById.do
+			请求参数：id,count
+			请求方式：get
+			响应方式：ResponseBody
+		4.页面处理，调整cart.js文件
+		
+*******订单管理*********
+	1.显示订单
+		1.持久层(不用添加)
+		2.业务层
+			新建IOrderService接口，定义方法
+				List<CartVo> getOrderByIds(Integer uid,Integer[] ids);
+			新建OrderService接口，实现方法
+				public List<CartVo> getOrderByIds(Integer uid,Integer[] ids){
+					1.定义输出数据的数组
+					2.调用持久层方法selectCart(),得到集合
+					3.遍历集合，得到CartVo对象，获取id
+					4.id和数组的id值比较，如果相同，把对象添加到orderList中
+					5.return orderList
+				}
+		3.控制器层
+			新建控制器OrderController
+			添加方法public String orderConfirm(HttpSession session,Integer[] ids,ModelMap map){
+				1.调用业务层方法，返回集合
+				2.把集合设置到map中
+				3.return "orderConfirm"
+			} 	
+		4.调整orderConfirm.jsp页面
+			修改cart.jsp，cart.js中点击‘去结算’按钮	
+			
+	2.显示收货地址
+		1.调用AddressService中的业务方法，返回集合，设置到map,显示页面
+	3.调整点击设置默认地址按钮（参照地址管理设置默认地址）
+		调整点击更多地址按钮的js函数，调整类名
+			//点击设置默认地址
+			$(".user_site").click(function(){
+				$(this).parent().attr("class","base_select");
+				$(this).parent().siblings().attr("class","base");
+				$(this).hide();
+				$.ajax({
+					"url":"${pageContext.request.contextPath}/address/setDefault.do",
+					"data":"id="+$(this).attr("id"),
+					"type":"GET",
+					"dataType":"json",
+					"success":function(obj){
+						location.reload();//刷新页面
+					}			
+				});
+			})
+	
+	4.生成订单
+		1.创建表t_order订单表
+			id int			订单号
+			uid int			购买用户
+			tradeTime date 	交易时间
+			created_user
+			created_time
+			modified_user
+			modified_time
+		2.创建表t_orderItem订单商品详情表
+			id				
+			uid					用户id
+			goodsId				商品id
+			image
+			title
+			price
+			count
+			paymentStatus		支付状态
+			orderStatus			订单状态
+			orderId				订单号
+			created_user
+			created_time
+			modified_user
+			modified_time	
+		
+		3.持久层
+			a.新建Order,OrderItem实体类
+			b.在OrderMapper接口中定义方法
+				void insertOrder(Order order)			添加订单	
+				void insertOrderItem(OrderItem orderItem)	添加订单详细商品
+			c.在OrderMapper.xml中定义insert节点，完成sql的编写
+				<insert id="insertOrder" parameterType="..order"		
 					
 					
 					
