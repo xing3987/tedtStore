@@ -1,4 +1,31 @@
 
+学子商城总需求：
+	1.用户管理
+		1.1	注册
+		1.2	登陆
+		1.3	修改个人信息：基本信息，密码
+	2.地址管理
+		2.1	添加地址
+		2.2	显示收货地址
+		2.3	修改地址
+		2.4	删除地址
+		2.5	设置默认地址
+	3.商品
+		3.1	商品分类
+		3.2	热门商品
+		3.3	展示商品页
+		3.4	商品详情
+	4.购物车
+		4.1	添加购物车
+		4.2	显示购物车
+		4.3	修改购物车信息：修改数量，删除商品
+	5.订单
+		5.1	生成订单
+		5.2	付款（存储过程）
+
+分析：从页面--数据库
+写代码：从持久层-业务层-控制器层-页面		
+			 
 
 ssm-学子商城
 	1.建立项目，配置环境
@@ -763,15 +790,168 @@ ssm-学子商城
 				void insertOrder(Order order)			添加订单	
 				void insertOrderItem(OrderItem orderItem)	添加订单详细商品
 			c.在OrderMapper.xml中定义insert节点，完成sql的编写
-				<insert id="insertOrder" parameterType="..order"		
-					
-					
-					
-					
-					
-					
-					
-							
+				1	<insert id="insertOrder" parameterType="..order"
+						keyProperty="id" useGeneratedKeys="true"//可以用这个办法自动生成id,以便服务层直接get得到>
+						insert into t_order(uid,tradeTime) values(
+							#{uid},now()--当前系统时间
+						)		
+					</insert>
 				
+				2	<insert id="insertOrderItem" parameterType="..orderItem"></insert>
+				3	实现购买商品后，商品表中的数据，要做修改，在GoodsMapper接口中定义方法
+					void updateNumById(@Param("id") String id,@Param("num") Integer num)
+			
+			d.测试持久层	
+			
+		4.业务层
+			a.在IOrderService接口中定义方法
+				void addOrder(Order order,List<CartVo> cartVos) 
+			b.在OrderService类中实现方法：在订单表中插入一条数据，把所有的订单详情插入到t_orderItem表
+				然后修改商品库存
+					//添加订单信息和订单详情，并修改商品库存
+					public void addOrder(Order order, List<CartVo> cartVos) {
+						orderMapper.insertOrder(order);
+						for(CartVo cartVo:cartVos){
+							//设置订单详情信息
+							OrderItem orderItem=new OrderItem();
+							orderItem.setUid(cartVo.getUid());
+							orderItem.setGoodsId(cartVo.getGoodsId());
+							orderItem.setImage(cartVo.getImage());
+							orderItem.setTitle(cartVo.getTitle());
+							orderItem.setPrice(cartVo.getPrice());
+							orderItem.setCount(cartVo.getCount());
+							orderItem.setPaymentStatus(0);
+							orderItem.setOrderStatus(0);
+							orderItem.setId(orderId);
+							orderMapper.insertOrderItem(orderItem);//插入订单详情中
+							
+							Goods goods=goodsMapper.selectGoodsById(Integer.parseInt(cartVo.getGoodsId()));//通过id查询该商品信息，为了得到商品数量
+							//设置商品的现在数量，库存减去购买数量
+							goodsMapper.updateNumById(cartVo.getGoodsId(), goods.getNum()-cartVo.getCount());
+						}		
+					}
+			c.测试业务层
+		5.控制器层
+			在showOrderConfirm方法中，在session中添加属性session.setAttribute("cartVos",cartVos)
+			
+			/order/addOrder.do
+			请求参数：uid(session)
+			请求方式：post
+			响应方式：转发
+			public String addOrder(HttpSession session){
+				Order order=new Order();
+				order.setUid(this.getId());
+				List<CartVo> cartVos=session.getAttribute("cartVos");
+				调用业务层方法
+				OrderService.addOrder(order,cartVos);
+				return "payment";
+			}
+		6.页面	
+			修改payment.html页面转为.jsp
+			orderConfirm.jsp中修改点击确认并付款连接
+			
+*********付款*********
+	1.持久层
+		在OrderMapper接口中定义方法
+			void updatePaymentStatusByOrderId(Integer orderId);
+		在OrderMapper.xml中编写sql语句
+				//update t_orderItem set paymentStatus=1 where orderId=#{orderId}
+			**pl/sql:对sql语句进行编程(编写存储过程)					
+				块：匿名块
+				存储函数：有返回值
+				存储过程	：没有返回值
+				语法：
+				delimiter $$
+					create procedure updateItem(poid int)//方法，类型在后面，变量在前面
+					begin
+					update t_orderItem set paymentStatus=1 where orderId=poid //语句和参数
+				end$$
+		
+		*调用编辑好的存储函数
+		如：call updateItem(7);			
+		*删除过程语法：drop procedure 过程名
+	2.业务层
+		在IOrderService和OrderService中编写调用持久层的方法
+	3.控制器层
+		在addOrder方法中，把orderId设置为session属性
+
+		/order/payment.do
+		请求参数：session
+		请求方式：GET
+		响应方式：转发pay_sussess.jsp	
+		
+		public String paysuccess(HttpSession session){}
+		移除绑定的session--orderId和cartVos
+	4.调整页面
+		payment.jsp
+		<a href="../order/paysuccess.do">确认支付</a>	
+		pay_success.jsp调整头部导航栏
+					
+******其他模块******
+
+**消息摘要
+
+	**密码加密		
+		1.通过消息摘要技术，对密码进行处理，避免密码‘明文’保存，管理员也不能直接看到密码
+		2.原理：使用某种特定的算法（MD5加密算法）//转成32位字符串
+		3.步骤：
+			a.添加依赖jar包
+				commons-codec 1.10
+			b.在测试包中TestMD5.java中测试
+			c.结论：
+				同样的数据，消息摘要相同
+				消息摘要相同，来源与相同的数据
+	**salt 加盐（使消息摘要更加安全）
+		1.定义一个字符串
+			6--10 	“你喜欢编程码”
+		2.把输入的数据和定义的字符串连接
+		3.把连接的数一起做密码加密
+		
+	**把学子商城的密码进行加密处理
+		1.UserService中修改密码相关代码
+			注册
+			登陆
+			修改密码
+		
+		2.	在db.properties中配置salt的初始值，到spring-dao.xml中导入
+			在UserService中什么全局变量
+			@Value("#{dbConfig.salt}")
+			private String salt;//声明加密的盐，使用配置文件配置salt,并通过sping注解导入
+		3. 添加方法
+				//MD5加密处理
+				public String DigestUtilsSalt(String pwd){
+					String newpwd=DigestUtils.md5Hex(pwd+salt);
+					return newpwd;
+				}
+		
+**文件上传//直接在控制器层调用spring-mvc的工具类
+	1.导入两个jar包
+		 <groupId>commons-io</groupId>			
+		 <groupId>commons-fileupload</groupId>			
+	2.配置spring-mvc上传的上传组件解析器
+		ctrl+shift+t 打开组件解析器名字搜索
+		
+		<!--配置上传图片组件，id是固定的不能乱写  -->
+		<bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000"></property>
+		<property name="defaultEncoding" value="utf-8"></property>
+		</bean>
+	3.添加测试文件upload.jsp
+		添加测试控制器TestUploadController,实现上传文件的功能
+			@RequestMapping("/showUpload.do")
+			public String showUpload(){
+				return "upload";
+			}
+			
+			@RequestMapping("/doUpload.do")
+			//实现上传文件的功能
+			public String doUpload(MultipartFile file) throws IllegalStateException, IOException{
+				file.transferTo(new File("e:/picture",file.getOriginalFilename()));//设置文件传入的路径和文件名
+				return "redirect:../main/showIndex.do";
+			}
+		
+ 	4.修改personinfo.jsp头像上传组件
+ 					
 				
 					

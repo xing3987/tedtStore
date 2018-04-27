@@ -42,6 +42,7 @@ create table t_address(
 )engine=InnoDB default charset=utf8;
 alter table t_address change deafault_address default_address int(1);
 drop table t_address;
+truncate table t_address;
 desc t_address;
 select * from t_address;
 update t_address set default_address=1 where id=12;
@@ -85,6 +86,10 @@ create table t_order(
 	modified_time date
 )default charset=utf8
 drop table t_order;
+select * from t_order;
+select max(id) from t_order;
+desc t_order;
+truncate table t_order;
 --订单详情表
 create table t_orderItem(
 	id int auto_increment primary key,
@@ -103,6 +108,27 @@ create table t_orderItem(
 	modified_time date
 )default charset=utf8
 
+desc t_orderItem;
+truncate table t_orderItem;
+select * from t_orderItem;
+
+--数据库编程（存储过程pl/sql）
+delimiter $$
+create procedure selectById(idIn int)
+begin	
+	select * from t_orderItem where id=idIn;
+end$$
+
+delimiter $$
+	create procedure updateItem(poid int)
+	begin
+	update t_orderItem set paymentStatus=1 where orderId=poid;
+end$$;
+--调用函数
+call updateItem(7);
+call selectById(4);
+--删除函数
+drop procedure selectById;
 
 
 

@@ -29,4 +29,9 @@ public class GoodsService implements IGoodsService{
 		return goods;
 	}
 
+	public void setGoodsNumById(String id, Integer num) {
+		goodsMapper.updateNumById(id, num);
+		
+	}
+
 }

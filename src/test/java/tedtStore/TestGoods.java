@@ -41,6 +41,11 @@ public class TestGoods {
 		System.out.println(good);
 	}
 	
+	@Test
+	public void MapperUpdateNumById(){
+		goodsMapper.updateNumById("10000001", 999);
+	}
+	
 	
 /*******************ÒµÎñ²ã*************************/	
 	@Test
@@ -63,4 +68,10 @@ public class TestGoods {
 		Goods good=goodsService.getGoodsById(10000003);
 		System.out.println(good);
 	}
+	
+	@Test
+	public void ServiceUpdateNumById(){
+		goodsService.setGoodsNumById("10000001", 998);
+	}
+	
 }

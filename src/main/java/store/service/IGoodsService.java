@@ -10,4 +10,5 @@ public interface IGoodsService {
 	
 	public Integer getCount(Integer categoryId);
 	public Goods getGoodsById(Integer id);//通过id查找商品
+	public void setGoodsNumById(String id,Integer num);//通过id设置商品数量
 }

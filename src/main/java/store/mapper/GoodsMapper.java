@@ -12,4 +12,5 @@ public interface GoodsMapper {
 			@Param("offset") Integer offset,@Param("count") Integer count);//查询热门商品
 	public Integer selectCount(Integer categoryId);//通过分类Id查询商品的数量
 	public Goods selectGoodsById(Integer id);//通过id查询返回商品
+	public void updateNumById(@Param("id") String id,@Param("num") Integer num);//通过id和num修改商品数量
 }

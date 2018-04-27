@@ -24,7 +24,7 @@
 
 	<insert id="insertCart" parameterType="store.bean.Cart">
 		insert into t_cart values(
-			null,#{uid},#{goodsId},#{count},#{createdUser},
+			#{id},#{uid},#{goodsId},#{count},#{createdUser},
 			#{createdTime},#{modifiedUser},#{modifiedTime}
 		)
 	</insert>

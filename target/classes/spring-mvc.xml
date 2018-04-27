@@ -55,6 +55,12 @@
 			</mvc:interceptor>		
 		</mvc:interceptors>
 		
+		<!--配置上传图片组件  -->
+		<bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000"></property>
+		<property name="defaultEncoding" value="utf-8"></property>
+		</bean>
  	
 </beans>
 

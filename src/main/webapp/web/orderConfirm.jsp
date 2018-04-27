@@ -225,8 +225,9 @@
     })
 </script>
 <script>
+	//点击确认并付款按钮跳转
     $(".go_pay").click(function () {
-        location.href = "payment.html";
+        location.href = "../order/addOrder.do";
     })
 </script>
 <script>

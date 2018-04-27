@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="store.mapper.OrderMapper">
+
+	<!-- 调用存储过程 -->
+	<update id="updatePaymentStatusByOrderId">
+		{call updateItem(#{orderId})}
+	</update>
+	
+<!-- 先在数据库创建存储过程 
+		//update t_orderItem set paymentStatus=1 where orderId=#{orderId}
+		delimiter $$
+		create procedure updateItem(poid int)
+		begin
+			update t_orderItem set paymentStatus=1 where orderId=poid
+		end$$
+-->
+
+	<insert id="insertOrder" parameterType="store.bean.Order" 
+		keyProperty="id" useGeneratedKeys="true">
+		insert into t_Order(tradeTime,uid) values(
+			now(),#{uid}
+		)
+	</insert>
+	
+	<insert id="insertOrderItem" parameterType="store.bean.OrderItem">
+		insert into t_OrderItem values(
+			#{id},#{uid},#{goodsId},#{image},#{title},
+			#{price},#{count},#{paymentStatus},#{orderStatus},
+			#{orderId},#{createdUser},#{createdTime},#{modifiedUser},#{modifiedTime}
+		)
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

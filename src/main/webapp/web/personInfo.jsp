@@ -44,9 +44,11 @@
             <div class="rs_content_headPortrait">
 	                <span class="same">我的头像：</span>
 	                <img src="${pageContext.request.contextPath}/images/personage/touxiang.png" alt="" id="icon" width="50px" height="50px"/>
-	                <input type="hidden" name="iconPic" value="" id="iconPic">
-	                <span class="change_headPortrait same_click" data-toggle="modal" data-target="#avatar-modal" >更改头像</span>
-	            </div>
+	        	    <form action="" enctype="multipart/form-data">
+	                	<input type="file" name="iconPic" value="" id="iconPic" onchange="getImage()">
+	                </form>
+	               <!-- <input type="hidden" name="iconPic" value="" id="iconPic"> -->
+	               <!--  <span class="change_headPortrait same_click" data-toggle="modal" data-target="#avatar-modal" >更改头像</span>-->         </div>
             <!--用户名-->
        <form id="personInfo">
             <div class="rs_content_username">
@@ -238,6 +240,11 @@
 <script src="${pageContext.request.contextPath}/js/icon/sitelogo.js"></script>
 <script src="${pageContext.request.contextPath}/js/icon/html2canvas.min.js" type="text/javascript" charset="utf-8"></script> 
 <script type="text/javascript"> 
+	//上传头像
+	function getImage(){
+		var formData=new FormData();
+		
+	}
 	
 	//段保护保存更改按钮
 	function btnUpdate(){
