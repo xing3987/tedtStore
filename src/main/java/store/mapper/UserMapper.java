@@ -2,6 +2,8 @@ package store.mapper;
 
 
 
+import org.apache.ibatis.annotations.Param;
+
 import store.bean.User;
 
 
@@ -13,5 +15,6 @@ public interface UserMapper {
 	public Integer selectByPhone(String phone);//查询电话存在数量
 	
 	public void update(User user);//更改用户信息
+	public void updateImageById(@Param("image") String image,@Param("id") Integer id);
 	
 }

@@ -122,4 +122,9 @@ public class UserService implements IUserService{
 		return newpwd;
 	}
 
+	//通过Id改变用户的image属性
+	public void updateImageById(String image, Integer id) {
+		userMapper.updateImageById(image, id);
+	}
+
 }

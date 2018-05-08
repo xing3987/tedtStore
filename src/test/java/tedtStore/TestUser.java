@@ -23,7 +23,7 @@ public class TestUser {
 		ApplicationContext ac=new ClassPathXmlApplicationContext(
 				"spring-dao.xml","spring-mvc.xml","spring-service.xml");
 		UserMapper userdao=ac.getBean("userMapper",UserMapper.class);
-		DictMapper dectMapper=ac.getBean("dectMapper",DictMapper.class);
+		DictMapper dictMapper=ac.getBean("dictMapper",DictMapper.class);
 		IUserService userService=ac.getBean("userService",IUserService.class);
 		UserController userController=ac.getBean("userController",UserController.class);
 		MainController mainController=ac.getBean("mainController",MainController.class);
@@ -165,7 +165,11 @@ public class TestUser {
 		}	
 	}
 
-
+	@Test
+	//测试通过id修改用户image属性
+	public void changeImage(){
+		userService.updateImageById("13246579", 1);
+	}
 	
 	
 	

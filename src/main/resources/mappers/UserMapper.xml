@@ -26,6 +26,10 @@
 		select count(*) from t_user where phone=#{phone}
 	</select>
 	
+	<update id="updateImageById">
+		update t_user set image=#{image} where id=#{id}	
+	</update>
+	
 	<update id="update" parameterType="store.bean.User">
 		update t_user set 
 		<if test="password!=null">

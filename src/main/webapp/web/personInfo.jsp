@@ -42,10 +42,10 @@
         <div class="rs_content">
             <!--头像-->
             <div class="rs_content_headPortrait">
-	                <span class="same">我的头像：</span>
-	                <img src="${pageContext.request.contextPath}/images/personage/touxiang.png" alt="" id="icon" width="50px" height="50px"/>
-	        	    <form action="" enctype="multipart/form-data">
-	                	<input type="file" name="iconPic" value="" id="iconPic" onchange="getImage()">
+	                <span class="same" style="float:left">我的头像：</span>
+	                <img style="float:left" src="${pageContext.request.contextPath}/images/personage/touxiang.png" alt="" id="icon" width="50px" height="50px"/>
+	        	    <form action="" enctype="multipart/form-data" style="float:left;margin-left:20px;margin-top:20px;">
+	                	<input  type="file" name="file" value="" id="iconPic" onchange="getImage()">
 	                </form>
 	               <!-- <input type="hidden" name="iconPic" value="" id="iconPic"> -->
 	               <!--  <span class="change_headPortrait same_click" data-toggle="modal" data-target="#avatar-modal" >更改头像</span>-->         </div>
@@ -54,7 +54,7 @@
             <div class="rs_content_username">
                 <span class="same">用户名：</span>
                 <span class="same rs_username"></span>
-                <input class="ed_username" value="${user.username}" name="username"/>
+                <input style="height:20px" class="ed_username" value="${user.username}" name="username"/>
                 <span class="change_username same_click">更改用户名</span>
                 <span id="userNameSpan"></span>
             </div>
@@ -242,8 +242,24 @@
 <script type="text/javascript"> 
 	//上传头像
 	function getImage(){
+		//创建表单数据对象
 		var formData=new FormData();
-		
+		//获取file节点
+		var fileNode=document.getElementById("iconPic");
+		formData.append("file",fileNode.files[0]);
+		$.ajax({
+			"url":"${pageContext.request.contextPath}/user/upload.do",
+			"data":formData,
+			"type":"POST",
+			"dataType":"json",
+			"contentType":false,//文件上传必须设置
+			"processData":false,//让服务器不要处理提交的文件
+			"success":function(obj){
+				//实现显示图片功能
+				var url=window.URL.createObjectURL(fileNode.files[0]);
+				icon.src=url;//直接改写id的src属性
+			}
+		})
 	}
 	
 	//段保护保存更改按钮

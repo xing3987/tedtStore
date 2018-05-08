@@ -952,6 +952,53 @@ ssm-学子商城
 			}
 		
  	4.修改personinfo.jsp头像上传组件
+ 	   在上传头像处添加form，在input-file组件处添加onchange="getImage()"方法
+ 		//上传头像
+		function getImage(){
+			//创建表单数据对象
+			var formData=new FormData();
+			//获取file节点
+			var fileNode=document.getElementById("iconPic");
+			formData.append("file",fileNode.files[0]);
+			$.ajax({
+				"url":"${pageContext.request.contextPath}/user/upload.do",
+				"data":formData,
+				"type":"POST",
+				"dataType":"json",
+				"contentType":false,//文件上传必须设置
+				"processData":false,//让服务器不要处理提交的文件
+				"success":function(obj){
+					//实现显示图片功能
+					var url=window.URL.createObjectURL(fileNode.files[0]);
+					icon.src=url;//直接改写id的src属性
+				}
+			})
+		}
  					
-				
+	5.上传头像控制器方法
+		在UserController中定义方法
+		@  @
+		public ResponsResult<Void> upload(@RequestParam("file") MultipartFile file){
+			1.file提供的方法，实现上传的功能
+			2.返回rr对象，1，“上传成功”
+		}
+		
+		
+	6.保存上传的推昂数据	
+		a.在持久层userMapper中定义方法
+			void updateImageById(@Param("image") String image,@Param("id") Integer id);
+		b.在UserMapper.xml文件中定义方法
+			update t_user set image=#{image} where id=#{id}
+		c.写业务层，只要传递值方法同持久层
+		d.写控制器层
+		
+		
+		
+		
+		
+		
+		
+		
+		
+					
 					
