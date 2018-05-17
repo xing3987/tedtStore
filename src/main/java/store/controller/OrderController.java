@@ -1,19 +1,17 @@
 package store.controller;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import store.bean.Address;
 import store.bean.CartVo;
 import store.bean.Order;
 import store.service.IAddressService;
 import store.service.IOrderService;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 //订单管理控制器
 @Controller

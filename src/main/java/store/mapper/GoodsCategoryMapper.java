@@ -1,10 +1,9 @@
 package store.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 import store.bean.GoodsCategory;
+
+import java.util.List;
 
 //创建商品分类表查询接口
 public interface GoodsCategoryMapper {

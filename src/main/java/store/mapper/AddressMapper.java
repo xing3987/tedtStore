@@ -1,8 +1,8 @@
 package store.mapper;
 
-import java.util.List;
-
 import store.bean.Address;
+
+import java.util.List;
 
 public interface AddressMapper {
 	public void insert(Address address);//创建导入地址的方法
