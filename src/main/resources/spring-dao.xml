@@ -65,8 +65,11 @@
 				value="classpath:mappers/*.xml" />
 		</bean>
 		
-
- 	
+		<!-- 初始化bean对象，用来实现事物切面功能,并添加注解驱动 -->
+		<bean id="transationManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"></property>
+		</bean>
+ 		<tx:annotation-driven transaction-manager="transationManager"/>
 </beans>
 
 

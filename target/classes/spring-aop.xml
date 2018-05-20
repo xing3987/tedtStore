@@ -19,57 +19,16 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
-   
+		
+		
+	<!---springAop配置-->
+	
 		<!-- 配置组件扫描 -->
 		<context:component-scan 
-			base-package="store.mapper" />
-		
-		<!-- 加载数据库连接池的配置文件 -->
-		<util:properties id="dbConfig"
-			location="classpath:db.properties" />
+			base-package="store.aop" />
 			
-		<!-- 配置Bean用于数据库连接池 -->
-		<bean id="dataSource"
-			class="org.apache.commons.dbcp.BasicDataSource"
-			destroy-method="close">
-			<property name="url" 
-				value="#{dbConfig.url}" />
-			<property name="driverClassName" 
-				value="#{dbConfig.driver}" />
-			<property name="username" 
-				value="#{dbConfig.user}" />
-			<property name="password" 
-				value="#{dbConfig.password}" />
-			<property name="initialSize" 
-				value="#{dbConfig.initSize}" />
-			<property name="maxActive" 
-				value="#{dbConfig.maxActive}" />
-		</bean>
-		
-		<!-- 配置MapperScannerConfigurer -->
-		<bean 
-			class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-			<!-- 用于配置持久层接口在哪里 -->
-			<property name="basePackage"
-				value="store.mapper" />
-		</bean>
-		
-		<!-- 配置SqlSessionFactoryBean -->
-		<bean
-			class="org.mybatis.spring.SqlSessionFactoryBean">
-			<!-- 用于配置数据库连接池 -->
-			<property name="dataSource"
-				ref="dataSource" />
-			<!-- 用于配置持久层映射文件在哪里 -->
-			<property name="mapperLocations"
-				value="classpath:mappers/*.xml" />
-		</bean>
-		
-		<!-- 初始化bean对象，用来实现事物切面功能,并添加注解驱动 -->
-		<bean id="transationManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-			<property name="dataSource" ref="dataSource"></property>
-		</bean>
- 		<tx:annotation-driven transaction-manager="transationManager"/>
+		<!-- 开启横向切面功能 -->
+ 		<aop:aspectj-autoproxy  proxy-target-class="true" />
 </beans>
 
 

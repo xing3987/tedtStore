@@ -984,21 +984,84 @@ ssm-学子商城
 		}
 		
 		
-	6.保存上传的推昂数据	
+	6.保存上传的头像数据	
 		a.在持久层userMapper中定义方法
 			void updateImageById(@Param("image") String image,@Param("id") Integer id);
 		b.在UserMapper.xml文件中定义方法
 			update t_user set image=#{image} where id=#{id}
 		c.写业务层，只要传递值方法同持久层
-		d.写控制器层
+		d.写控制器层，把图片地址存入数据库
+		e.页面增加读取图片地址功能
 		
-		
-		
-		
-		
-		
-		
-		
-		
+	7.Autowired与Resource区别
+		实现功能都相同，都是自动装配依赖注入
+		Autowired是spring提供的
+		Resource是tomcat提供的
+*****Spring-AOP********
+
+	1.spring-AOP是一种横向逻辑的扩展，是oop的重要补充。在不改变原有业务逻辑的基础，对横切
+		逻辑进行扩展
+		Aspectj是一种面向切面框架
+		spring-aop是对Aspectj框架的进一步封装，底层的实现原理是使用了jdk的动态代理
+	2.使用时先导入jar包
+		  <dependency>
+			  <groupId>org.aspectj</groupId>
+			  <artifactId>aspectjweaver</artifactId>
+			  <version>1.8.8</version>
+			</dependency>
+			<dependency>
+			  <groupId>org.aspectj</groupId>
+			  <artifactId>aspectjweaver</artifactId>
+			  <version>1.8.0</version>
+			</dependency>
+			<dependency>
+			  <groupId>org.aspectj</groupId>
+			  <artifactId>aspectjrt</artifactId>
+			  <version>1.8.0</version>
+			</dependency>			
+	3.配置组件扫描(参照spring-service.xml)	
+			<!---springAop配置-->	
+				<!-- 配置组件扫描 -->
+				<context:component-scan 
+					base-package="store.aop" />
 					
-					
+				<!-- 开启横向切面功能 -->
+		 		<aop:aspectj-autoproxy/>
+		
+	4.使用时类要加注解
+		@Component
+		@Aspect
+		
+		方法前注解：
+		a	@Before("bean(userController)")
+		b	@After("bean(userController)")
+		c	@AfterReturning("bean(userController)")
+		d	@AfterThrowing("bean(userController)")
+		e	@Around("bean(userController)")--该方法有返回对象
+		
+	5.名词	
+		a.切点：可以执行切面逻辑方法的业务逻辑类的方法，叫切点
+		b.连接点：业务逻辑类的所有方法叫连接点
+		
+	6.切点的定义
+		a.bean定义切点
+			@Around("bean(userController)||bean(orderController)")
+		b.类定于切点
+			@Around("within(store.controller.UserController)")
+			@Around("within(store.controller.*Controller)")//可以使用通配符
+		c.方法（最通用）
+			@Around("execution(* store.controller.UserController.login(..))")
+				*表示方法返回类型
+				..表示方法参数	
+			@Around("execution(* store..*Controller.*(..))")
+				表示store包下*Controller类的所有方法
+	
+	7.项目中spring-aop的使用，用于业务层事物回滚	
+		a.在spring-dao中配置bean  (ctrl+shift+t查找类，右键复制全路径)	
+				<!-- 初始化bean对象，用来实现事物切面功能,并添加注解驱动 -->
+				<bean id="transationManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+					<property name="dataSource" ref="dataSource"></property>
+				</bean>
+		 		<tx:annotation-driven transaction-manager="transationManager"/>		
+		b.在I*Service服务接口类添加事物注解
+			@Transactional			

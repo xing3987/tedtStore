@@ -1,7 +1,9 @@
 package store.service;
 
-import store.bean.User;
+import org.springframework.transaction.annotation.Transactional;
 
+import store.bean.User;
+@Transactional
 public interface IUserService {
 	
 /************************ÓÃ»§×¢²á*********************/	

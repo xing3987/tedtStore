@@ -2,9 +2,11 @@ package store.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import store.bean.CartVo;
 import store.bean.Order;
-
+@Transactional
 //订单管理业务层接口
 public interface IOrderService {
 	public List<CartVo> getOrderByIds(Integer uid,Integer[] ids);

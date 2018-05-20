@@ -2,9 +2,11 @@ package store.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import store.bean.Cart;
 import store.bean.CartVo;
-
+@Transactional
 public interface ICartService {
 	public void insertCart(Cart cart);//插入购物车数据
 	public List<CartVo> getCartVoByUid(Integer uid);//查询用户购物 车中的信息

@@ -2,8 +2,10 @@ package store.service;
 
 import java.util.List;
 
-import store.bean.Goods;
+import org.springframework.transaction.annotation.Transactional;
 
+import store.bean.Goods;
+@Transactional
 public interface IGoodsService {
 	public List<Goods> getGoodsByCategoryId(Integer categoryId,
 					Integer offset,Integer count);
