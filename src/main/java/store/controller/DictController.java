@@ -1,18 +1,16 @@
 package store.controller;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import store.bean.Area;
 import store.bean.City;
 import store.bean.Province;
 import store.bean.ResponseResult;
 import store.service.DictService;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 @RequestMapping("/dict")

@@ -1,10 +1,10 @@
 package store.mapper;
 
-import java.util.List;
-
 import store.bean.Area;
 import store.bean.City;
 import store.bean.Province;
+
+import java.util.List;
 //省市区查询等方法管理接口
 public interface DictMapper {
 	public List<Province> selectProvince();//查询返回省份数据
